@@ -1,8 +1,7 @@
 # Notes!
 
-- Download Git Bash : [Here] (https://git-scm.com/download/win).
-- Register Accout Github : [Here] (https://github.com/).
-This site was built using [GitHub Pages](https://pages.github.com/).
+- Download Git Bash : [Download Here] (https://git-scm.com/download/win).
+- Register Accout Github : [Register Here] (https://github.com/).
 
 
 
