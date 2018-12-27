@@ -1,10 +1,10 @@
-**Notes!
+##Notes!
 ```
 - Download Git Bash : [Here](https://git-scm.com/download/win).
 - Register Accout Github : [Here](https://github.com/).
 ```
 
-**How to Clone
+##How to Clone
 ```
 - Open/ Create Empty Folder Anywhere on Your Directory
 - Right Click "Git Bash Here"
