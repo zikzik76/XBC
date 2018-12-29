@@ -154,6 +154,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BTController.cs" />
+    <Compile Include="Controllers\BTTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -247,6 +248,11 @@
     <Content Include="Views\BT\_List.cshtml" />
     <Content Include="Views\BT\_Edit.cshtml" />
     <Content Include="Views\BT\_Delete.cshtml" />
+    <Content Include="Views\BTT\Index.cshtml" />
+    <Content Include="Views\BTT\_Create.cshtml" />
+    <Content Include="Views\BTT\_List.cshtml" />
+    <Content Include="Views\BTT\_Edit.cshtml" />
+    <Content Include="Views\BTT\_Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
