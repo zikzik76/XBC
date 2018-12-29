@@ -101,5 +101,24 @@ namespace XBC.MVC.Controllers
                 entity = result.Entity
             }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult EditPlacement(int id)
+        {
+            ViewBag.BiodataList = new SelectList(BiodataRepo.All(), "id", "name");
+            return PartialView("_EditPlacement", MonitoringRepo.GetById(id));
+        }
+
+        [HttpPost]
+        public ActionResult EditPlacement(MonitoringViewModel model)
+        {
+            ResponseResult result = MonitoringRepo.CreateEdit(model);
+
+            return Json(new
+            {
+                success = result.Success,
+                message = result.Message,
+                entity = result.Entity
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

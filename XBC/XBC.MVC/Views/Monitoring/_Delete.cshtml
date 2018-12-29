@@ -1,0 +1,68 @@
+﻿@model XBC.ViewModel.MonitoringViewModel
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.biodataName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.biodataName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idle_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idle_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.placement_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.placement_date)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Monitoring", FormMethod.Post, new { id = "form-mtr-delete", name = "form-btt-delete" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.biodata_id)
+
+        <div class="form-group text-center">
+            <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+    $("#form-mtr-delete").submit(function () {
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (result) {
+                if (result.success) {
+                    alert("Delete Successful!");
+                    $(".modal").modal("hide");
+                    GetListMonitoring();
+                }
+                else {
+                    alert("Error!: " + result.message);
+                }
+            }
+        });
+        return false;
+    });
+
+</script>

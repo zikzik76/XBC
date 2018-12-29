@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "IDLE MONITORING";
+}
+
+<link href="@Url.Content("~/Content/themes/base/jquery-ui.min.css")" rel="stylesheet" />
+
+<h2>@ViewBag.Title</h2>
+
+<div class="panel panel-footer">
+    <div class="panel-heading">
+        <div class="row">
+
+            <div class="col-xs-6 col-sm-4 text-left">
+                @Html.TextBox("Search", "", new { placeholder = "Search by name" }) <input type="submit" id="btn-search" value="Search" />
+            </div>
+
+            <div class="col-xs-6 col-sm-4">
+            </div>
+
+            <div class="col-xs-6 col-sm-4 text-right">
+                <button id="btn-create-mt" type="button" class="btn-group-lg btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="panel-body">
+    <div id="data-monitoring-list">
+        Loading...
+    </div>
+
+</div>
+
+<!-- Table -->
+
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                <h4 class="modal-title">modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            GetListMonitoring();
+
+            $("#btn-search").click(function () {
+                var SearchValue = $("#Search").val();
+                $.ajax({
+                    type: "get",
+                    url: '@Url.Action("Search", "Monitoring")',
+                    data: { "search": SearchValue },
+                    success: function (result) {
+                        $("#data-monitoring-list").html(result)
+                    }
+                });
+            });
+        });
+
+        function GetListMonitoring() {
+            $.ajax({
+                url: '@Url.Action("List", "Monitoring")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-monitoring-list").html(result);
+                }
+            });
+        }
+
+        $("#btn-create-mt").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "Monitoring")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("INPUT IDLE");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+    </script>
+}
