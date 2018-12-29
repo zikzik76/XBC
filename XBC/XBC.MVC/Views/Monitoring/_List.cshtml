@@ -33,7 +33,7 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="#" class="btn-mtr-edit" data-id="@item.id">Edit</a></li>
-                        <li><a href="#" class="btn-mtr-placement" data-id="@item.id">Placement</a></li>
+                        <li><a href="#" class="btn-mtr-placement" data-id="@item.id" data-placement="@item.placement_date">Placement</a></li>
                         <li><a href="#" class="btn-mtr-delete" data-id="@item.id">Delete</a></li>
                     </ul>
                 </div>
@@ -59,29 +59,34 @@
     });
 
     $(".btn-mtr-placement").click(function () {
-        var a = $(".plc").val(a).text()
-        console.log(a)
-        @*$.ajax({
-            url: '@Url.Action("Placement", "Monitoring")',
-            type: 'get',
-            data: { id: $(this).attr("data-id") },
-            success: function (result) {
-                $(".modal-title").html("INPUT PLACEMENT");
-                $(".modal-body").html(result);
-                $(".modal").modal("show");
-            }
-        });*@
-
-        @* $.ajax({
-            url: '@Url.Action("EditPlacement", "Monitoring")',
-            type: 'get',
-            data: { id: $(this).attr("data-id") },
-            success: function (result) {
-                $(".modal-title").html("EDIT PLACEMENT");
-                $(".modal-body").html(result);
-                $(".modal").modal("show");
-            }
-        });*@
+        var placement_date = $(this).attr("data-placement")
+        
+        @*if (placement_date.length == 0) {
+            alert("kosong")
+             $.ajax({
+                url: '@Url.Action("Placement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("INPUT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }
+        else {
+            alert("tidak kosong")
+             $.ajax({
+                url: '@Url.Action("EditPlacement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("EDIT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }*@
     });
 
     $(".btn-mtr-delete").click(function () {
