@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AuditRepo.cs" />
     <Compile Include="BTRepo.cs" />
+    <Compile Include="BTTRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Bootcamp Type Test";
+}
+
+<h2>@ViewBag.Title Page</h2>
+
+<div class="panel panel-footer">
+    <div class="panel-heading">
+        <div class="row">
+
+            <div class="col-xs-6 col-sm-4 text-left">
+                @Html.TextBox("Search", "", new { placeholder = "Search by name" }) <input type="submit" id="btn-search" value="Search" />
+            </div>
+
+            <div class="col-xs-6 col-sm-4">
+            </div>
+
+            <div class="col-md-6 text-right">
+                <button id="btn-create-btt" type="button" class="btn-group-lg btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="panel-body"></div>
+
+<!-- Table -->
+
+<div id="data-btt-list">
+    Loading...
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                <h4 class="modal-title">modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetListBTT();
+
+            $("#btn-search").click(function () {
+                var SearchValue = $("#Search").val();
+                $.ajax({
+                    type: "get",
+                    url: '@Url.Action("Search", "BTT")',
+                    data: { "search": SearchValue },
+                    success: function (result) {
+                        $("#data-btt-list").html(result)
+                    }
+                });
+            });
+        });
+
+        function GetListBTT() {
+            $.ajax({
+                url: '@Url.Action("List", "BTT")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-btt-list").html(result);
+                }
+            });
+        }
+
+        $("#btn-create-btt").click(function () {
+                $.ajax({
+                    url: '@Url.Action("Create", "BTT")',
+                    type: 'get',
+                    success: function (result) {
+                        $(".modal-title").html("BOOTCAMP TEST TYPE");
+                        $(".modal-body").html(result);
+                        $(".modal").modal("show");
+                    }
+                });
+            });
+    </script>
+}
