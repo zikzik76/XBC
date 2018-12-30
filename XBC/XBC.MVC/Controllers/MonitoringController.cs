@@ -83,16 +83,33 @@ namespace XBC.MVC.Controllers
         }
 
         //  Add Placement (edit)
-        public ActionResult Placement(int id)
+        public ActionResult AddPlacement(int id)
         {
-            ViewBag.BiodataList = new SelectList(BiodataRepo.All(), "id", "name");
-            return PartialView("_Placement", MonitoringRepo.GetById(id));
+            return PartialView("_AddPlacement", MonitoringRepo.GetById(id));
         }
 
         [HttpPost]
-        public ActionResult Placement(MonitoringViewModel model)
+        public ActionResult AddPlacement(MonitoringViewModel model)
         {
-            ResponseResult result = MonitoringRepo.CreatePlacement(model);
+            ResponseResult result = MonitoringRepo.AddPlacement(model);
+
+            return Json(new
+            {
+                success = result.Success,
+                message = result.Message,
+                entity = result.Entity
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditPlacement(int id)
+        {
+            return PartialView("_EditPlacement", MonitoringRepo.GetByIdDuringIdle(id));
+        }
+
+        [HttpPost]
+        public ActionResult EditPlacement(MonitoringViewModel model)
+        {
+            ResponseResult result = MonitoringRepo.AddPlacement(model);
 
             return Json(new
             {

@@ -259,7 +259,7 @@
     <Content Include="Views\Monitoring\_List.cshtml" />
     <Content Include="Views\Monitoring\_Edit.cshtml" />
     <Content Include="Views\Monitoring\_Delete.cshtml" />
-    <Content Include="Views\Monitoring\_Placement.cshtml" />
+    <Content Include="Views\Monitoring\_AddPlacement.cshtml" />
     <Content Include="Views\Monitoring\_EditPlacement.cshtml" />
   </ItemGroup>
   <ItemGroup>

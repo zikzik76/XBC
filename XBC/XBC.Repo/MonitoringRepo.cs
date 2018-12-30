@@ -26,6 +26,7 @@ namespace XBC.Repo
                         //  binding id w/ name on View
                         mt.id = entity.id;
                         mt.biodata_id = entity.biodata_id;
+
                         mt.idle_date = entity.idle_date;
                         mt.last_project = entity.last_project;
                         mt.idle_reason = entity.idle_reason;
@@ -94,6 +95,7 @@ namespace XBC.Repo
                               idle_reason = mt.idle_reason,
                               placement_date = mt.placement_date,
                               placement_at = mt.placement_at,
+                              notes = mt.notes,
                               is_delete = mt.is_delete
                           }).ToList();
             }
@@ -181,7 +183,7 @@ namespace XBC.Repo
             return result;
         }
 
-        public static ResponseResult CreatePlacement(MonitoringViewModel entity)
+        public static ResponseResult AddPlacement(MonitoringViewModel entity)
         {
             ResponseResult result = new ResponseResult();
 
@@ -195,8 +197,8 @@ namespace XBC.Repo
                     if (mt != null)
                     {
                         mt.placement_date = entity.placement_date;
-                        mt.last_project = entity.last_project;
-                        mt.idle_reason = entity.idle_reason;
+                        mt.placement_at = entity.placement_at;
+                        mt.notes= entity.notes;
 
                         //  createdby from user login
                         mt.modified_by = 111;
@@ -219,6 +221,29 @@ namespace XBC.Repo
                 result.Message = ex.Message;
             }
             return result;
+        }
+
+        public static MonitoringViewModel GetByIdDuringIdle(int id)
+        {
+            MonitoringViewModel result = new MonitoringViewModel();
+            using (var db = new XBCContext())
+            {
+                result = (from mt in db.t_monitoring
+                          join bio in db.t_biodata
+                          on mt.biodata_id equals bio.id
+                          where mt.id == id
+                          select new MonitoringViewModel
+                          {
+                              id = mt.id,
+                              biodata_id = mt.biodata_id,
+                              biodataName = bio.name,
+                              idle_date = mt.idle_date, // added this for jquery compare
+                              placement_date = mt.placement_date,
+                              placement_at = mt.placement_at,
+                              notes = mt.notes
+                          }).FirstOrDefault();
+            }
+            return result == null ? new MonitoringViewModel() : result;
         }
 
         public static List<MonitoringViewModel> GetIdleDuringPlacement()

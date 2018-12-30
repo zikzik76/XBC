@@ -59,8 +59,33 @@
     });
 
     $(".btn-mtr-placement").click(function () {
-        var placement_date = $(this).attr("data-placement")
-        
+        var placement_date = Date.parse($(this).attr("data-placement"))
+
+        //  add placement
+        if (Number.isNaN(placement_date)) {
+            $.ajax({
+                url: '@Url.Action("AddPlacement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("INPUT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("EditPlacement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("EDIT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }
         @*if (placement_date.length == 0) {
             alert("kosong")
              $.ajax({
