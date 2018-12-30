@@ -156,6 +156,7 @@
     <Compile Include="Controllers\BTController.cs" />
     <Compile Include="Controllers\BTTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -253,6 +254,13 @@
     <Content Include="Views\BTT\_List.cshtml" />
     <Content Include="Views\BTT\_Edit.cshtml" />
     <Content Include="Views\BTT\_Delete.cshtml" />
+    <Content Include="Views\Monitoring\Index.cshtml" />
+    <Content Include="Views\Monitoring\_Create.cshtml" />
+    <Content Include="Views\Monitoring\_List.cshtml" />
+    <Content Include="Views\Monitoring\_Edit.cshtml" />
+    <Content Include="Views\Monitoring\_Delete.cshtml" />
+    <Content Include="Views\Monitoring\_AddPlacement.cshtml" />
+    <Content Include="Views\Monitoring\_EditPlacement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

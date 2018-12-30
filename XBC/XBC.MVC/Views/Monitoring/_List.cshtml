@@ -1,0 +1,130 @@
+﻿@model IEnumerable<XBC.ViewModel.MonitoringViewModel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.biodataName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idle_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.placement_date)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.biodataName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idle_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.placement_date, new { @class = "plc"})
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#" class="btn-mtr-edit" data-id="@item.id">Edit</a></li>
+                        <li><a href="#" class="btn-mtr-placement" data-id="@item.id" data-placement="@item.placement_date">Placement</a></li>
+                        <li><a href="#" class="btn-mtr-delete" data-id="@item.id">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script type="text/javascript">
+
+    $(".btn-mtr-edit").click(function () {
+        $.ajax({
+            url: '@Url.Action("Edit", "Monitoring")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("EDIT IDLE");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+    $(".btn-mtr-placement").click(function () {
+        var placement_date = Date.parse($(this).attr("data-placement"))
+
+        //  add placement
+        if (Number.isNaN(placement_date)) {
+            $.ajax({
+                url: '@Url.Action("AddPlacement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("INPUT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("EditPlacement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("EDIT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }
+        @*if (placement_date.length == 0) {
+            alert("kosong")
+             $.ajax({
+                url: '@Url.Action("Placement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("INPUT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }
+        else {
+            alert("tidak kosong")
+             $.ajax({
+                url: '@Url.Action("EditPlacement", "Monitoring")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("EDIT PLACEMENT");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        }*@
+    });
+
+    $(".btn-mtr-delete").click(function () {
+        $.ajax({
+            url: '@Url.Action("Delete", "Monitoring")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("DELETE IDLE");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+</script>

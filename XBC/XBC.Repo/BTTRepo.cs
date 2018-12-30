@@ -10,6 +10,10 @@ namespace XBC.Repo
 {
     public class BTTRepo
     {
+        public static Object dataBeforeUpdate;  // TEMPORARY BEFORE UPDATING DATA
+        public static Object dataAfterUpdate;   // TEMPORARY AFTER UPDATING DATA
+        public static Object dataBeforeDelete;  // TEMPORARY BEFORE DELETING DATA
+
         public static ResponseResult CreateEdit(BTTViewModel entity)
         {
             ResponseResult result = new ResponseResult();
@@ -34,6 +38,9 @@ namespace XBC.Repo
                         db.SaveChanges();
 
                         result.Entity = entity;
+
+                        //  Audit Log "INSERT"
+                        AuditRepo.Insert(btt);
                     }
                     else // edit
                     {
@@ -51,6 +58,10 @@ namespace XBC.Repo
                             db.SaveChanges();
 
                             result.Entity = entity;
+
+                            //  Audit Log "UPDATE"
+                            dataAfterUpdate = btt;
+                            AuditRepo.Update(dataBeforeUpdate, dataAfterUpdate);
                         }
                         else
                         {
@@ -121,6 +132,12 @@ namespace XBC.Repo
                               modified_on = DateTime.Now
                           }).FirstOrDefault();
             }
+
+            //  dataBeforeUpdate temporary for before update audit_log
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
             return result == null ? new BTTViewModel() : result;
         }
 
@@ -141,6 +158,10 @@ namespace XBC.Repo
 
                         db.SaveChanges();
                         result.Entity = entity;
+
+                        //  Audit Log "UPDATE"
+                        dataAfterUpdate = btt;
+                        AuditRepo.Update(dataBeforeUpdate, dataAfterUpdate);
                     }
                     else
                     {

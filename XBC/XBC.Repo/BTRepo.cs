@@ -10,7 +10,6 @@ namespace XBC.Repo
 {
     public class BTRepo
     {
-
         public static Object dataBeforeUpdate;  // TEMPORARY BEFORE UPDATING DATA
         public static Object dataAfterUpdate;   // TEMPORARY AFTER UPDATING DATA
         public static Object dataBeforeDelete;  // TEMPORARY BEFORE DELETING DATA
@@ -45,7 +44,6 @@ namespace XBC.Repo
                     else
                     {
                         t_bootcamp_type bt = db.t_bootcamp_type.Where(o => o.id == entity.id).FirstOrDefault();
-
 
                         if (bt != null)
                         {
@@ -136,6 +134,7 @@ namespace XBC.Repo
                           }).FirstOrDefault();
             }
 
+            //  dataBeforeUpdate temporary for before update audit_log
             if (result != null)
             {
                 dataBeforeUpdate = result;
