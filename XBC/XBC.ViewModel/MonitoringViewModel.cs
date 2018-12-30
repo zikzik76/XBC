@@ -26,13 +26,16 @@ namespace XBC.ViewModel
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime idle_date { get; set; }
 
+        [Display(Name = "Last Project")]
         [StringLength(50)]
         public string last_project { get; set; }
 
+        [Display(Name = "Idle Reason")]
         [StringLength(255)]
         public string idle_reason { get; set; }
 
         [Display(Name = "Placement Date")]
+        [Required]
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? placement_date { get; set; }

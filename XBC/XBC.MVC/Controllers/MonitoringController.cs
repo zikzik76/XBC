@@ -82,7 +82,7 @@ namespace XBC.MVC.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        //  Add Placement (edit)
+        //  Add Placement
         public ActionResult AddPlacement(int id)
         {
             return PartialView("_AddPlacement", MonitoringRepo.GetById(id));
@@ -101,9 +101,10 @@ namespace XBC.MVC.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        //  Edit Placement (placement_date, placement at, notes)
         public ActionResult EditPlacement(int id)
         {
-            return PartialView("_EditPlacement", MonitoringRepo.GetByIdDuringIdle(id));
+            return PartialView("_EditPlacement", MonitoringRepo.GetById(id));
         }
 
         [HttpPost]

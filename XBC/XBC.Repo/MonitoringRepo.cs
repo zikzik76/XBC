@@ -8,8 +8,30 @@ using XBC.ViewModel;
 
 namespace XBC.Repo
 {
+    public class dataAfterUpdate
+    {
+        public long id { get; set; }
+        public long biodata_id { get; set; }
+        public DateTime idle_date { get; set; }
+        public string last_project { get; set; }
+        public string idle_reason { get; set; }
+        public DateTime? placement_date { get; set; }
+        public string placement_at { get; set; }
+        public string notes { get; set; }
+        public long created_by { get; set; }
+        public DateTime created_on { get; set; }
+        public long? modified_by { get; set; }
+        public DateTime? modified_on { get; set; }
+        public long? deleted_by { get; set; }
+        public DateTime? deleted_on { get; set; }
+        public bool is_delete { get; set; }
+    }
     public class MonitoringRepo
     {
+        public static Object dataBeforeUpdate;  // TEMPORARY BEFORE UPDATING DATA
+        //public static Object dataAfterUpdate;   // TEMPORARY AFTER UPDATING DATA
+        public static Object dataBeforeDelete;  // TEMPORARY BEFORE DELETING DATA
+
         public static ResponseResult CreateEdit(MonitoringViewModel entity)
         {
             ResponseResult result = new ResponseResult();
@@ -39,6 +61,9 @@ namespace XBC.Repo
                         db.SaveChanges();
 
                         result.Entity = entity;
+
+                        //  Audit Log "INSERT"
+                        AuditRepo.Insert(mt);
                     }
                     else // edit
                     {
@@ -51,6 +76,7 @@ namespace XBC.Repo
                             mt.idle_date = entity.idle_date;
                             mt.last_project = entity.last_project;
                             mt.idle_reason = entity.idle_reason;
+                            mt.placement_date = entity.placement_date;
 
                             //  createdby from user login
                             mt.modified_by = 111;
@@ -58,7 +84,18 @@ namespace XBC.Repo
 
                             db.SaveChanges();
 
-                            result.Entity = entity;
+                            //  Audit Log "UPDATE"
+                            dataAfterUpdate dau = new dataAfterUpdate();
+                            dau.id = mt.id;
+                            dau.biodata_id = mt.biodata_id;
+                            dau.idle_date = mt.idle_date;
+                            dau.last_project = mt.last_project;
+                            dau.idle_reason = mt.idle_reason;
+                            dau.placement_date = mt.placement_date;
+                            dau.modified_by = mt.modified_by;
+                            dau.modified_on = mt.modified_on;
+
+                            AuditRepo.Update(dataBeforeUpdate, dau);
                         }
                         else
                         {
@@ -142,11 +179,31 @@ namespace XBC.Repo
                               id = mt.id,
                               biodata_id = mt.biodata_id,
                               biodataName = bio.name,
+
                               idle_date = mt.idle_date,
                               last_project = mt.last_project,
-                              idle_reason = mt.idle_reason
+                              idle_reason = mt.idle_reason,
+
+                              placement_date = mt.placement_date,
+                              placement_at = mt.placement_at,
+                              notes = mt.notes,
+
+                              created_by = mt.created_by,
+                              created_on = mt.created_on,
+                              modified_by = mt.modified_by,
+                              modified_on = mt.modified_on,
+                              deleted_by = mt.deleted_by,
+                              deleted_on = mt.deleted_on,
+                              is_delete = mt.is_delete
+
                           }).FirstOrDefault();
             }
+
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
+
             return result == null ? new MonitoringViewModel() : result;
         }
 
@@ -167,6 +224,23 @@ namespace XBC.Repo
 
                         db.SaveChanges();
                         result.Entity = entity;
+
+                        dataAfterUpdate dau = new dataAfterUpdate();
+                        dau.id = mt.id;
+                        dau.biodata_id = mt.biodata_id;
+                        dau.idle_date = mt.idle_date;
+                        dau.last_project = mt.last_project;
+                        dau.idle_reason = mt.idle_reason;
+
+                        dau.placement_date = mt.placement_date;
+                        dau.placement_at = mt.placement_at;
+                        dau.notes = dau.notes;
+
+                        dau.deleted_by = mt.modified_by;
+                        dau.deleted_on = mt.modified_on;
+                        dau.is_delete = mt.is_delete;
+
+                        AuditRepo.Update(dataBeforeUpdate, dau);
                     }
                     else
                     {
@@ -207,6 +281,20 @@ namespace XBC.Repo
                         db.SaveChanges();
 
                         result.Entity = entity;
+
+                        //  Audit Log "MODIFY"
+                        dataAfterUpdate dau = new dataAfterUpdate();
+                        dau.id = mt.id;
+                        dau.biodata_id = mt.biodata_id;
+
+                        dau.placement_date = mt.placement_date;
+                        dau.placement_at = mt.placement_at;
+                        dau.notes = mt.notes;
+
+                        dau.modified_by = mt.modified_by;
+                        dau.modified_on = mt.modified_on;
+
+                        AuditRepo.Update(dataBeforeUpdate, dau);
                     }
                     else
                     {
@@ -220,6 +308,7 @@ namespace XBC.Repo
                 result.Success = false;
                 result.Message = ex.Message;
             }
+
             return result;
         }
 
@@ -243,6 +332,12 @@ namespace XBC.Repo
                               notes = mt.notes
                           }).FirstOrDefault();
             }
+
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
+
             return result == null ? new MonitoringViewModel() : result;
         }
 
