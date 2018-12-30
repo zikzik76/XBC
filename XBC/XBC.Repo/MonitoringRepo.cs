@@ -8,6 +8,7 @@ using XBC.ViewModel;
 
 namespace XBC.Repo
 {
+    //  HANDLE Circular references in JSONSerializer and StackOverflow exceptions with Create Manual Class
     public class dataAfterUpdate
     {
         public long id { get; set; }
@@ -62,7 +63,7 @@ namespace XBC.Repo
 
                         result.Entity = entity;
 
-                        //  Audit Log "INSERT"
+                        //  AUDIT LOG => "INSERT"
                         AuditRepo.Insert(mt);
                     }
                     else // edit
@@ -84,14 +85,22 @@ namespace XBC.Repo
 
                             db.SaveChanges();
 
-                            //  Audit Log "UPDATE"
+                            //  AUDIT LOG => "MODIFY" UPDATE
                             dataAfterUpdate dau = new dataAfterUpdate();
                             dau.id = mt.id;
                             dau.biodata_id = mt.biodata_id;
+
                             dau.idle_date = mt.idle_date;
                             dau.last_project = mt.last_project;
                             dau.idle_reason = mt.idle_reason;
+
                             dau.placement_date = mt.placement_date;
+                            dau.placement_at = mt.placement_at;
+                            dau.notes = mt.notes;
+
+                            dau.created_by = mt.created_by;
+                            dau.created_on = mt.created_on;
+
                             dau.modified_by = mt.modified_by;
                             dau.modified_on = mt.modified_on;
 
@@ -225,19 +234,26 @@ namespace XBC.Repo
                         db.SaveChanges();
                         result.Entity = entity;
 
+                        //  AUDIT LOG => "MODIFY" DELETE
                         dataAfterUpdate dau = new dataAfterUpdate();
                         dau.id = mt.id;
                         dau.biodata_id = mt.biodata_id;
+
                         dau.idle_date = mt.idle_date;
                         dau.last_project = mt.last_project;
                         dau.idle_reason = mt.idle_reason;
 
                         dau.placement_date = mt.placement_date;
                         dau.placement_at = mt.placement_at;
-                        dau.notes = dau.notes;
+                        dau.notes = mt.notes;
 
-                        dau.deleted_by = mt.modified_by;
-                        dau.deleted_on = mt.modified_on;
+                        dau.created_by = mt.created_by;
+                        dau.created_on = mt.created_on;
+                        dau.modified_by = mt.modified_by;
+                        dau.modified_on = mt.modified_on;
+                        dau.deleted_by = mt.deleted_by;
+                        dau.deleted_on = mt.deleted_on;
+
                         dau.is_delete = mt.is_delete;
 
                         AuditRepo.Update(dataBeforeUpdate, dau);
@@ -282,17 +298,27 @@ namespace XBC.Repo
 
                         result.Entity = entity;
 
-                        //  Audit Log "MODIFY"
+                        //  AUDIT LOG => "MODIFY" UPDATE (ADD PLACEMENT)
                         dataAfterUpdate dau = new dataAfterUpdate();
                         dau.id = mt.id;
                         dau.biodata_id = mt.biodata_id;
+
+                        dau.idle_date = mt.idle_date;
+                        dau.last_project = mt.last_project;
+                        dau.idle_reason = mt.idle_reason;
 
                         dau.placement_date = mt.placement_date;
                         dau.placement_at = mt.placement_at;
                         dau.notes = mt.notes;
 
+                        dau.created_by = mt.created_by;
+                        dau.created_on = mt.created_on;
                         dau.modified_by = mt.modified_by;
                         dau.modified_on = mt.modified_on;
+                        dau.deleted_by = mt.deleted_by;
+                        dau.deleted_on = mt.deleted_on;
+
+                        dau.is_delete = mt.is_delete;
 
                         AuditRepo.Update(dataBeforeUpdate, dau);
                     }
@@ -312,34 +338,34 @@ namespace XBC.Repo
             return result;
         }
 
-        public static MonitoringViewModel GetByIdDuringIdle(int id)
-        {
-            MonitoringViewModel result = new MonitoringViewModel();
-            using (var db = new XBCContext())
-            {
-                result = (from mt in db.t_monitoring
-                          join bio in db.t_biodata
-                          on mt.biodata_id equals bio.id
-                          where mt.id == id
-                          select new MonitoringViewModel
-                          {
-                              id = mt.id,
-                              biodata_id = mt.biodata_id,
-                              biodataName = bio.name,
-                              idle_date = mt.idle_date, // added this for jquery compare
-                              placement_date = mt.placement_date,
-                              placement_at = mt.placement_at,
-                              notes = mt.notes
-                          }).FirstOrDefault();
-            }
+        //public static MonitoringViewModel GetByIdDuringIdle(int id)
+        //{
+        //    MonitoringViewModel result = new MonitoringViewModel();
+        //    using (var db = new XBCContext())
+        //    {
+        //        result = (from mt in db.t_monitoring
+        //                  join bio in db.t_biodata
+        //                  on mt.biodata_id equals bio.id
+        //                  where mt.id == id
+        //                  select new MonitoringViewModel
+        //                  {
+        //                      id = mt.id,
+        //                      biodata_id = mt.biodata_id,
+        //                      biodataName = bio.name,
+        //                      idle_date = mt.idle_date, // added this for jquery compare
+        //                      placement_date = mt.placement_date,
+        //                      placement_at = mt.placement_at,
+        //                      notes = mt.notes
+        //                  }).FirstOrDefault();
+        //    }
 
-            if (result != null)
-            {
-                dataBeforeUpdate = result;
-            }
+        //    if (result != null)
+        //    {
+        //        dataBeforeUpdate = result;
+        //    }
 
-            return result == null ? new MonitoringViewModel() : result;
-        }
+        //    return result == null ? new MonitoringViewModel() : result;
+        //}
 
         public static List<MonitoringViewModel> GetIdleDuringPlacement()
         {
