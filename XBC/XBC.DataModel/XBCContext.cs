@@ -12,7 +12,6 @@ namespace XBC.DataModel
         {
         }
 
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<t_assignment> t_assignment { get; set; }
         public virtual DbSet<t_audit_log> t_audit_log { get; set; }
         public virtual DbSet<t_batch> t_batch { get; set; }
