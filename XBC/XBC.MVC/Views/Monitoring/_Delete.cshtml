@@ -3,17 +3,18 @@
 <h3 class="text-center">Are you sure want to delete <strong>@Model.biodataName</strong> ?</h3>
 <br>
 
-@using (Html.BeginForm("Delete", "Monitoring", FormMethod.Post, new { id = "form-mtr-delete", name = "form-btt-delete" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.id)
-    @Html.HiddenFor(model => model.biodata_id)
+<div>
+    @using (Html.BeginForm("Delete", "Monitoring", FormMethod.Post, new { id = "form-mtr-delete", name = "form-btt-delete" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.biodata_id)
 
-    <div class="form-group text-center">
-        <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-    </div>
-}
+        <div class="form-group text-center">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+        </div>
+    }
 </div>
 
 <script type="text/javascript">
