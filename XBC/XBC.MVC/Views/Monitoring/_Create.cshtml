@@ -44,12 +44,12 @@
 
         <div class="form-group text-center">
             <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" value="Save" class="btn btn-success" />
         </div>
     </div>
 }
 
-@Scripts.Render("~/bundles/jqueryval")
+@*@Scripts.Render("~/bundles/jqueryval")*@
 
 <script type="text/javascript">
 
@@ -67,7 +67,6 @@
             success: function (result) {
                 if (result.success) {
                     alert("Create Successful!");
-                    console.log(result.entity.Name)
                     $(".modal").modal("hide");
                     GetListMonitoring();
                 }

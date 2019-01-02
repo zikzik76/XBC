@@ -1,64 +1,64 @@
 ﻿@model IEnumerable<XBC.ViewModel.BTTViewModel>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.created_by)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.is_delete)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered"">
+    <thead class="bg-light-blue">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.created_by)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status_is_delete)
-
-                @*@if (item.is_delete == true)
-                        {<text>Not Active</text>}
-                    else
-                        {<text>Active</text>}*@
-            </td>
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="glyphicon glyphicon-menu-hamburger"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="#" class="btn-btt-edit" data-id="@item.id">Edit</a></li>
-                        <li><a href="#" class="btn-btt-delete" data-id="@item.id">Delete</a></li>
-                    </ul>
-                </div>
-
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.created_by)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.is_delete)
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody class="bg-gray-light">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.created_by)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status_is_delete)
 
+                    @*@if (item.is_delete == true)
+                            {<text>Not Active</text>}
+                        else
+                            {<text>Active</text>}*@
+                </td>
+                <td align="center">
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#" class="btn-btt-edit" data-id="@item.id">Edit</a></li>
+                            <li><a href="#" class="btn-btt-delete" data-id="@item.id">Delete</a></li>
+                        </ul>
+                    </div>
+
+                </td>
+            </tr>
+        }
+        </tbody>
 </table>
 
 <script type="text/javascript">
 
     $(".btn-btt-edit").click(function () {
-        //alert("Value Id: " + $(this).attr("data-id"))
-
         $.ajax({
             url: '@Url.Action("Edit", "BTT")',
             type: 'get',
             data: { id: $(this).attr("data-id") },
             success: function (result) {
-                $(".modal-title").html("Edit");
+                $(".modal-title").html("Edit Bootcamp Test Type");
                 $(".modal-body").html(result);
                 $(".modal").modal("show");
             }
@@ -71,7 +71,7 @@
             type: 'get',
             data: { id: $(this).attr("data-id") },
             success: function (result) {
-                $(".modal-title").html("Delete");
+                $(".modal-title").html("Delete Bootcamp Test Type");
                 $(".modal-body").html(result);
                 $(".modal").modal("show");
             }
