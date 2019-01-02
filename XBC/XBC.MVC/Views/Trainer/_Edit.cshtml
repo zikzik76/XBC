@@ -5,7 +5,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        @*<h4>TrainerViewModel</h4>*@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
@@ -26,11 +25,10 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group text-right">
             <div class="col-md-offset-2 col-md-10">
-                <div class="btn-group btn-group-sm"></div>
+                <input type="submit" value="Save" class="btn btn-success" />
                 <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
-                <input type="submit" value="Save Change" class="btn btn-warning" />
             </div>
         </div>
     </div>
