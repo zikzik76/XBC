@@ -4,25 +4,22 @@
 
 <link href="@Url.Content("~/Content/themes/base/jquery-ui.min.css")" rel="stylesheet" />
 
-<h2>@ViewBag.Title</h2>
-
 <div class="panel panel-footer">
     <div class="panel-heading">
         <div class="row">
 
             <div class="col-xs-6 col-sm-4 text-left">
-                @Html.TextBox("Search", "", new { placeholder = "Search by name" }) <input type="submit" id="btn-search" value="Search" />
+                @Html.TextBox("Search", "", new { placeholder = "Search by name" })<button type="submit" id="btn-search"><i class="fa fa-search"></i></button>
             </div>
 
             <div class="col-xs-6 col-sm-4">
             </div>
 
             <div class="col-xs-6 col-sm-4 text-right">
-                <button id="btn-create-mt" type="button" class="btn-group-lg btn-success">
+                <button id="btn-create-mt" type="button" class="btn-success btn-sm">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
-
         </div>
     </div>
 </div>
@@ -56,8 +53,6 @@
     <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
 
     <script type="text/javascript">
-
-
         $(document).ready(function () {
             GetListMonitoring();
 
