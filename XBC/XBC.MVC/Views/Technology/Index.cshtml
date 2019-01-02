@@ -3,21 +3,26 @@
     ViewBag.Title = "Technology";
 }
 
-@Styles.Render("~/AdminLTE/plugins/datatables/css")
+@*@Styles.Render("~/AdminLTE/plugins/datatables/css")*@
 
 <div class="panel panel-footer">
     <!-- Default panel Contents-->
     <div class="panel-heading">
 
         <div class="row">
-            <div class="col-xs-6 col-sm-6 text-left">
+            <div class="col-xs-6 col-sm-4 text-left">
                 @Html.TextBox("Search", "", new { placeholder = "Search by name" })<button type="submit" id="btn-search"><i class="fa fa-search"></i></button>
             </div>
-            <div class="col-xs-6 col-sm-6 text-right">
-                <button id="btn-create-new" type="button" class="btn-warning btn-md">
+
+            <div class="col-xs-6 col-sm-4">
+            </div>
+
+            <div class="col-xs-6 col-sm-4 text-right">
+                <button id="btn-create-new" type="button" class="btn-success btn-sm">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
+
         </div>
     </div>
 
@@ -60,7 +65,7 @@
 </div><!--/.modal-->
 
 @section Scripts{
-    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+    @*@Scripts.Render("~/AdminLTE/plugins/datatables/js")*@
     <script type="text/javascript">
         $(document).ready(function () {
             GetList();

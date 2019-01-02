@@ -1,37 +1,37 @@
 ﻿
 @model XBC.ViewModel.TechnologyViewModel
 
-<h4>Are you sure you want to delete <b>@Model.name</b> ?</h4>
+<h3 class="text-center">Are you sure you want to delete <strong>@Model.name</strong> ?</h3>
+<br>
+
 <div>
     @*<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.name)<b> :</b>
-        </dt>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.name)<b> :</b>
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-        <br>
-        <dt>
-            @Html.DisplayNameFor(model => model.notes)<b> :</b>
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+            <br>
+            <dt>
+                @Html.DisplayNameFor(model => model.notes)<b> :</b>
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.notes)
-        </dd>
-    </dl>*@
+            <dd>
+                @Html.DisplayFor(model => model.notes)
+            </dd>
+        </dl>*@
     @using (Html.BeginForm("Delete", "Technology", FormMethod.Post, new { id = "form-delete", name = "form-delete" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.id)
         @Html.HiddenFor(model => model.name)
 
-        <div class="form-group text-right">
-
-            <div class="btn-group btn-group-sm"></div>
-            <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+        <div class="form-group text-center">
             <input type="submit" value="Delete" class="btn btn-danger" />
+            <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
         </div>
     }
 </div>
@@ -39,7 +39,7 @@
 <script type="text/javascript">
     $("#form-delete").submit(function () {
 
-       
+
         $.ajax({
             url: this.action,
             type: this.method,

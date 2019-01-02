@@ -3,8 +3,8 @@
 @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>*@
-<table class="table table-bordered table-striped">
-    <thead>
+<table class="table table-bordered">
+    <thead class="bg-light-blue">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.name)
@@ -24,30 +24,17 @@
                     @Html.DisplayFor(modelItem => item.name)
                 </td>
                 @*<td>
-                    @Html.DisplayFor(modelItem => item.notes)
-                </td>*@
-                <td>
-                    <div class="input-group">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                    <button type="button" class="btn btn-default btn-edit" data-id="@item.id" title="Edit">
-                                        @*<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>*@
-                                        Edit
-                                    </button>
-                                </a>
-                                <br>
-                                <a class="dropdown-item" href="#">
-                                    <button type="button" class="btn btn-default btn-delete" data-id="@item.id" title="Delete">
-                                        @*<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>*@
-                                        Delete
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
+                        @Html.DisplayFor(modelItem => item.notes)
+                    </td>*@
+                <td align="center">
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#" class="btn-edit" data-id="@item.id">Edit</a></li>
+                            <li><a href="#" class="btn-delete" data-id="@item.id">Delete</a></li>
+                        </ul>
                     </div>
                 </td>
             </tr>
