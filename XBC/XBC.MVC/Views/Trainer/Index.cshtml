@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Trainer";
+}
+
+@*<h3>List of @ViewBag.Title</h3>*@
+
+@Styles.Render("~/AdminLTE/plugins/datatables/css")
+
+<div class="panel panel-footer">
+    <!-- Default panel Contents-->
+    <div class="panel-heading">
+
+        <div class="row">
+            <div class="col-md-offset-11 col-md-1">
+                <button id="btn-create-new" type="button" class="btn-success btn-sm">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+                <input type="text" class="form-control" placeholder="Search for...">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->*@
+
+
+
+    <div class="panel-body">
+        @*<p>....</p>*@
+    </div>
+    <div id="data-list">
+        Loading...
+    </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal Title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+            </div><!--/.modal-content-->
+        </div><!--/.modal-dialog-->
+    </div><!--/.modal-->
+    
+    @section Scripts{
+        @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+        <script type="text/javascript">
+            $(document).ready(function () {
+                GetList();
+            });
+
+
+            function GetList() {
+                $.ajax({
+                    url: '@Url.Action("List", "Trainer")',
+                    type: 'get',
+                    success: function (result) {
+                        $("#data-list").html(result);
+                    }
+                });
+            }
+
+            $("#btn-create-new").click(function () {
+                $.ajax({
+                    url: '@Url.Action("Create", "Trainer")',
+                    type: 'get',
+                    success: function (result) {
+                        $(".modal-title").html("Create New");
+                        $(".modal-body").html(result);
+                        $(".modal").modal("show");
+                    }
+                });
+            });
+        </script>
+    }

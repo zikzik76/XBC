@@ -1,23 +1,21 @@
 ﻿
 @{
-    ViewBag.Title = "Bootcamp Type Test";
+    ViewBag.Title = "Bootcamp Test Type";
 }
-
-<h2>@ViewBag.Title Page</h2>
 
 <div class="panel panel-footer">
     <div class="panel-heading">
         <div class="row">
 
             <div class="col-xs-6 col-sm-4 text-left">
-                @Html.TextBox("Search", "", new { placeholder = "Search by name" }) <input type="submit" id="btn-search" value="Search" />
+                @Html.TextBox("Search", "", new { placeholder = "Search by name" })<button type="submit" id="btn-search"><i class="fa fa-search"></i></button>
             </div>
 
             <div class="col-xs-6 col-sm-4">
             </div>
 
-            <div class="col-md-6 text-right">
-                <button id="btn-create-btt" type="button" class="btn-group-lg btn-success">
+            <div class="col-xs-6 col-sm-4 text-right">
+                <button id="btn-create-btt" type="button" class="btn-success btn-sm">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -82,7 +80,7 @@
                     url: '@Url.Action("Create", "BTT")',
                     type: 'get',
                     success: function (result) {
-                        $(".modal-title").html("BOOTCAMP TEST TYPE");
+                        $(".modal-title").html("Add Bootcamp Test Type");
                         $(".modal-body").html(result);
                         $(".modal").modal("show");
                     }
