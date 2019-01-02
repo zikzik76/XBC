@@ -1,0 +1,22 @@
+﻿@model IEnumerable<XBC.ViewModel.TrainerViewModel>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.created_by)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.active)
+            </th>*@
+        </tr>
+    </thead>
+    <tbody id="tech-trainer-list">
+        @foreach (var item in Model)
+        {
+            @Html.Partial("_DetailTrainer", item)
+        }
+    </tbody>
+</table>

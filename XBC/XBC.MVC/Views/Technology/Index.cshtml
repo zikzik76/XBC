@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Technology";
+}
+
+@Styles.Render("~/AdminLTE/plugins/datatables/css")
+
+<div class="panel panel-footer">
+    <!-- Default panel Contents-->
+    <div class="panel-heading">
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 text-left">
+                @Html.TextBox("Search", "", new { placeholder = "Search by name" })<button type="submit" id="btn-search"><i class="fa fa-search"></i></button>
+            </div>
+            <div class="col-xs-6 col-sm-6 text-right">
+                <button id="btn-create-new" type="button" class="btn-warning btn-md">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="panel-body">
+        @*<p>....</p>*@
+    </div>
+    <div id="data-list">
+        Loading...
+    </div>
+
+</div>
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modal1que" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!--/.modal-content-->
+    </div><!--/.modal-dialog-->
+</div><!--/.modal-->
+
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modal2que" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!--/.modal-content-->
+    </div><!--/.modal-dialog-->
+</div><!--/.modal-->
+
+@section Scripts{
+    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+        });
+        $("#btn-search").click(function () {
+            var SearchValue = $("#Search").val();
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("Search", "Technology")',
+                data: { "search": SearchValue },
+                success: function (result) {
+                    $("#data-list").html(result)
+                }
+            });
+        });
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List", "Technology")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        }
+
+        $("#btn-create-new").click(function () {
+            console.log('masuk');
+            $.ajax({
+                url: '@Url.Action("Create", "Technology")',
+                type: 'get',
+                success: function (result) {
+                    $("#modal1 .modal-title").html("Create New");
+                    $("#modal1 .modal-body").html(result);
+                    $("#modal1").modal("show");
+                }
+            });
+        });
+        function RemoveItem(obj) {
+            var tr = $(obj).closest("tr");
+            if (confirm("Delete Trainer?")) {
+                tr.remove();
+            }
+        }
+    </script>
+}

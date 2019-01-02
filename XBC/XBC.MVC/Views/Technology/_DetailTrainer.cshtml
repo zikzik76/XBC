@@ -1,0 +1,42 @@
+﻿@model XBC.ViewModel.TrainerViewModel
+<tr>
+    <td>
+        <input type="hidden" id="id" name="id" value="@Model.id" />
+        @*@Html.HiddenFor(model => model.id)*@
+        @Html.TextBoxFor(model => model.name, new { @class = "form-control", @readonly = "readonly" })
+    </td>
+    <td>
+        @Html.TextBoxFor(model => model.created_by, new { @class = "form-control", @readonly = "readonly" })
+    </td>
+    <td>
+        <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li class="li-delete" data-id="@Model.id"><a href="#" onclick="RemoveItem(this)">Delete</a></li>
+
+                @*<li class="li-edit" id="edittr" data-id="@Model.id"><a href="#">Edit</a></li>*@
+            </ul>
+        </div>
+    </td>
+</tr>
+@*<script type="text/javascript">$("#edittr").click(function () {
+        $.ajax({
+            url:'@Url.Action("Trainer2", "Technology")',
+            type: this.method,
+            data: { model: data },
+            success: function (result) {
+                if (result.success) {
+                    alert("Save Successful! Name : " + result.entity.name);
+                    GetListTrainer();
+                    $(".modal").modal("hide");
+                    //location.reload();
+                } else {
+                    alert("Error!." + result.message)
+                }
+            }
+        });
+        return false;
+    });
+</script>*@
