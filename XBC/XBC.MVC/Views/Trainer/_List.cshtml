@@ -1,0 +1,87 @@
+﻿@model IEnumerable<XBC.ViewModel.TrainerViewModel>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.notes)
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.notes)
+                </td>*@
+                <td>
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">
+                                    <button type="button" class="btn btn-default btn-edit" data-id="@item.id" title="Edit">
+                                        @*<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>*@
+                                        Edit
+                                    </button>
+                                </a>
+                                <br>
+                                <a class="dropdown-item" href="#">
+                                    <button type="button" class="btn btn-default btn-delete" data-id="@item.id" title="Delete">
+                                        @*<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>*@
+                                        Delete
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(".table").DataTable();
+    $(".btn-edit").click(function () {
+        //alert("Value Id : " + $(this).attr("data-id"));
+        $.ajax({
+            url: '@Url.Action("Edit", "Trainer")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Edit");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+    $(".btn-delete").click(function () {
+        //alert("Value Id : " + $(this).attr("data-id"));
+        $.ajax({
+            url: '@Url.Action("Delete", "Trainer")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Delete");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+</script>
