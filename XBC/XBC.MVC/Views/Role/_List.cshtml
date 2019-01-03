@@ -1,0 +1,68 @@
+﻿@model IEnumerable<XBC.ViewModel.RoleViewModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default glyphicon glyphicon-align-justify" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#" class="btn-edit" data-id="@item.id">Edit</a></li>
+                        <li><a href="#" class="btn-delete" data-id="@item.id">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+<script type="text/javascript">
+    $(".btn-edit").click(function () {
+        //alert("Value Id : " + $(this).attr("data-id"));
+        $.ajax({
+            url: '@Url.Action("Edit","Role")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Edit");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+    $(".btn-delete").click(function () {
+        //alert("Value Id : " + $(this).attr("data-Id"));
+        $.ajax({
+            url: '@Url.Action("Delete","Role")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Delete");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+</script>

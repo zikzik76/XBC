@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "ROLE";
+}
+<br />
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+        <div class="container">
+            <div class="row">
+                <div class="">
+                    <div class="col-xs-6 col-sm-4 text-left">
+                        <input type="text" class="form-control " id="form-src" placeholder="Search by name...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-src" type="button">Go!</button>
+                        </span>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-4 ">
+                    </div>
+                    <div class="col-xs-6 col-sm-4 text-right">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" id="btn-new" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div id="test-list">
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine Body!!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List","Role")',
+                type: 'get',
+                success: function (result) {
+                    $("#test-list").html(result);
+                }
+            });
+        }
+
+        $('.btn-src').click(function () {
+            //alert("1");
+            $.ajax({
+                url: '@Url.Action("List","Role")',
+                type: 'get',
+                data: { search: $("#form-src").val() },
+                success: function (result) {
+                    $("#test-list").html(result);
+                }
+            });
+        });
+
+        $("#btn-new").click(function () {
+
+            $.ajax({
+                url: '@Url.Action("Create","Role")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Create New");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+    </script>
+}

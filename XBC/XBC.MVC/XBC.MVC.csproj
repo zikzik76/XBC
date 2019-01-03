@@ -157,6 +157,7 @@
     <Compile Include="Controllers\BTTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TechnologyController.cs" />
     <Compile Include="Controllers\TechTrainerController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
@@ -1114,6 +1115,11 @@
     <Content Include="Views\Trainer\_Delete.cshtml" />
     <Content Include="Views\Trainer\_Edit.cshtml" />
     <Content Include="Views\Trainer\_List.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\_Create.cshtml" />
+    <Content Include="Views\Role\_Delete.cshtml" />
+    <Content Include="Views\Role\_Edit.cshtml" />
+    <Content Include="Views\Role\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
