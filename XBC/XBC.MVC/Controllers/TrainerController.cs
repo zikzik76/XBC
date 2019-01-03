@@ -20,6 +20,10 @@ namespace XBC.MVC.Controllers
             return PartialView("_List", TrainerRepo.All());
         }
 
+        public ActionResult Search(string search)
+        {
+            return PartialView("_List", TrainerRepo.GetAllBySearch(search));
+        }
         public ActionResult Create()
         {
             return PartialView("_Create", new TrainerViewModel());
