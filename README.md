@@ -55,6 +55,21 @@
 	contoh:
 	![enter image description here](https://lh3.googleusercontent.com/eiGh79BS9RRlZuzIzqL426_xe9orXr7zuTT3UdlsQJ96JwCtx7DmBuu4AXuV4n_hbVGVYEKpzGie)
 
-- Lakukan **Compare & Pull Request** Pada Github Web
+- Klik **Compare & Pull Request** Pada Github Web
+	![enter image description here](https://lh3.googleusercontent.com/8JQY0qfIowtwU_qk7PY5R6orH-xs40llQHX8Ue0-hba9-cDP79BuoV6Sg1HbHZz_4AZbQCT0yoYt)
+- Klik **Create pull request**
+![enter image description here](https://lh3.googleusercontent.com/msyhUPuT2LM0FA3BGPh1rFOAVDDOfiCGRJFiBQVxZoHUbG-1zYS8MnXbWFh50v8kHinlbubxvO6J)
+- Klik **Merge pull request** lalu **Confirm Merge**
+![enter image description here](https://lh3.googleusercontent.com/OYGRYy9ukS2GDq4RGF_U9aZgzqTrHhP_cCbCGaF41ZG4EWqf77tbps1Y6-VGs7pTmKHzmi-SooAx)
 
-- 
+- Setelah itu kembali ke Terminal
+	- Pindah branch ke development
+		> git checkout development
+
+	 - lalu **Delete Branch** yang tadi dibuat
+		 > git branch -D bootcamp_type
+
+		contoh:
+		![enter image description here](https://lh3.googleusercontent.com/O7xGMhCH7TykrrmHgduMR449h1Q1UusrsoeevF5mAJqABZRPe0KV54OJnc2z-Z2z8p-yPKvSG347)
+
+- Selesai
