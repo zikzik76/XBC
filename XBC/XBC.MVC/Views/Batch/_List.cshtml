@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<XBC.ViewModel.BatchViewModel>
 
 <input type="hidden" id="batchTestId" name="batchTestId" value="@ViewBag.BatchTestId" />
-<table class="table">
-    
-    <thead>
+<table class="table table-bordered">
+    <thead class="bg-light-blue">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.technologyName)
@@ -33,7 +32,7 @@
                     @Html.DisplayFor(modelItem => item.trainerName)
                 </td>
 
-                <td>
+                <td align="center">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
@@ -41,14 +40,14 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li class="btn-edit" data-id="@item.id" title="Edit">Edit</li>
                             <li class="btn-participant" data-id="@item.id" title="Participant">Add Participant</li>
-                            <li class="btn-setup" data-id="@item.id" data-BT ="@ViewBag.BatchTestId" title="Setup test">Setup Test</li>
+                            <li class="btn-setup" data-id="@item.id" data-BT="@ViewBag.BatchTestId" title="Setup test">Setup Test</li>
                             @*<button type="button" class="btn btn-warning btn-edit" data-id="@item.id" title="Edit">
-                                Edit
-                            </button>
+                                    Edit
+                                </button>
 
-                            <button type="button" class="btn btn-danger btn-delete" data-id="@item.id" title="Delete">
-                                Delete
-                            </button>*@
+                                <button type="button" class="btn btn-danger btn-delete" data-id="@item.id" title="Delete">
+                                    Delete
+                                </button>*@
                         </ul>
                     </div>
                 </td>
@@ -92,7 +91,7 @@
         //alert("BT Id : " + $(this).attr("data-BT"));
         //alert(document.getElementById('batchTestId').value);
         console.log("BT Id : " + $(this).attr("data-BT") + ", Batch Id:" + $(this).attr("data-id"));
-        
+
         $.ajax({
             url: '@Url.Action("Test", "Batch")',
             type: 'get',
@@ -104,7 +103,7 @@
                 //GetList();
             }
         });
-        
+
     });
 
 

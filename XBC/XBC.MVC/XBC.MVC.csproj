@@ -1124,14 +1124,27 @@
     <Content Include="Views\Role\_Delete.cshtml" />
     <Content Include="Views\Role\_Edit.cshtml" />
     <Content Include="Views\Role\_List.cshtml" />
+    <Content Include="Views\Batch\Index.cshtml" />
+    <Content Include="Views\Batch\_Create.cshtml" />
+    <Content Include="Views\Batch\_Edit.cshtml" />
+    <Content Include="Views\Batch\_List.cshtml" />
+    <Content Include="Views\Batch\_Test.cshtml" />
+    <Content Include="Views\batchTest\Index.cshtml" />
+    <Content Include="Views\batchTest\_Test.cshtml" />
+    <Content Include="Views\Biodata\Index.cshtml" />
+    <Content Include="Views\Biodata\Search.cshtml" />
+    <Content Include="Views\Biodata\_Create.cshtml" />
+    <Content Include="Views\Biodata\_Delete.cshtml" />
+    <Content Include="Views\Biodata\_Edit.cshtml" />
+    <Content Include="Views\Biodata\_List.cshtml" />
+    <Content Include="Views\Class\Index.cshtml" />
+    <Content Include="Views\Class\_AddParticipant.cshtml" />
+    <Content Include="Views\Class\_Delete.cshtml" />
+    <Content Include="Views\Class\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\batchTest\" />
-    <Folder Include="Views\Batch\" />
-    <Folder Include="Views\Biodata\" />
-    <Folder Include="Views\Class\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

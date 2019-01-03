@@ -38,14 +38,14 @@ namespace XBC.ViewModel
         [StringLength(255)]
         [Display(Name = "NAME")]
         public string name { get; set; }
-
-        [Required]
+        
         [Display(Name = "Period From")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? periodFrom { get; set; }
 
-        [Required]
         [Display(Name = "Period To")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? periodTo { get; set; }
 
