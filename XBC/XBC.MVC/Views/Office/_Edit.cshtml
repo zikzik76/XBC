@@ -1,0 +1,210 @@
+﻿@model XBC.ViewModel.OfficeViewModel
+
+
+@using (Html.BeginForm("Edit", "Office", FormMethod.Post, new { id = "form-create1", name = "form-edit" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="roomId" name="roomId" value="@ViewBag.RoomId">
+    @Html.HiddenFor(x => x.id)
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Description", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button id="btn-create-room" class="btn btn-warning glyphicon glyphicon-plus" type="button" style="float:left">Room</button>
+            </span>
+        </div>
+
+        <table id="BaruTable" class="table table-bordered table-responsive ">
+            <thead>
+                <tr>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Capacity
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="room-list">
+                <!---Karena Room berbentuk List maka harus di foreach dengan bentuk [i].Liat ViewModel Office. disitu Room dalam bentuk List-->
+                <!---Perhatikan Model yang di bawa di Edit. itu model XSISViewModel.OfficeViewModel.Sedangkan room ada di dalam officeviewmodel-->
+                @{ int i = 0;} <!--Perhatikan disini-->
+                @foreach (var item in Model.Details)
+                {
+                    <tr>
+                        <td class="hidden">@Html.HiddenFor(ModelItem => Model.Details[i].id)</td>
+                        <td class="hidden">@Html.HiddenFor(ModelItem => Model.Details[i].notes)</td>
+                        <td class="hidden">@Html.HiddenFor(ModelItem => Model.Details[i].any_projector)</td>
+                        <td>@Html.EditorFor(model => model.Details[i].code, new { htmlattributes = new { @class = "form-control", @readonly = true } })</td>
+                        <td>@Html.EditorFor(model => model.Details[i].name, new { htmlattributes = new { @class = "form-control", @readonly = true } })</td>
+                        <td>@Html.TextBoxFor(model => model.Details[i].capacity, new { @class = "form-control", @readonly = true })</td>
+
+                        <td>
+                            <li class="dropdown btn btn-primary">
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation">
+                                        <!--buttonedit di dalamnya ada i dikarenakan ketika memanggil data List harus berbentuk array. Contoh: Details[i].name. i start dari 0-->
+                                        <a role="menuitem" tabindex="-1" data-id="@item.id" id="btnedit" onclick="buttonedit(@i)">Edit</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" id="btndelete" onclick="buttondelete(@i)">Delete</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </td>
+                    </tr>
+                    i++; <!--i bertambah setiap foreach (looping)-->
+                }
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-8 col-md-10">
+                <div class="btn-group btn-group-sm">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+<script type="text/javascript">
+    //$("#form-cre").submit(function () {
+    //    $.ajax({
+    //        url: this.action,
+    //        type: this.method,
+    //        data: $(this).serialize(),
+    //        success: function (result) {
+    //            if (result.success) {
+
+    //                alert("Data successfully Saved! Office : " + result.entity.name);
+    //                GetList();
+    //                $(".modal").modal("hide"); // INI DIBAWAH alert("Data successfully Saved! Office : " + result.entity.name);
+    //                console.log("============")
+
+
+    //                $("#BaruTable").find("tr")
+
+    //            } else {
+    //                alert("Error! " + result.message);
+    //            }
+    //        }
+    //    });
+    //    return false;
+    //});
+
+    $("#btn-create-room").click(function () {
+        //alert("Value Id : " + $(this).attr("data-id"));
+        $.ajax({
+            url: '@Url.Action("ViewModal2","Office")',
+            type: 'get',
+            //data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $("#modal2 .modal-title").html("Create");
+                $("#modal2 .modal-body").html(result);
+                $("#modal2").modal("show");
+            }
+        });
+    });
+
+
+    //karena Edit room harus ke modal 2 jadi harus melempar setiap value ke modal 2 dengan cara di bawah:
+    //perhatikan id room-list berada di tbody. oleh karena it harus di append.
+    //append pertama itu di <tr> sedangkan append kedua it di<td>
+    //karena code,name,capacity ada di td. jadi harus dilakukan cara demikian.
+    // x itu di dapat dari i diatas. karena i start dari 0.
+    //intinya gimana caranya itu dimulai dari 0 dan increment.
+
+    //berarti create yg td appendnya sama kaya yg append disini ya bang? sma aja
+    function buttonedit(x) {
+       var code = $("#room-list").append().append().find("#Details_" + x + "__code").val();
+        var name = $("#room-list").append().append().find("#Details_" + x + "__name").val();
+        var capacity = $("#room-list").append().append().find("#Details_" + x + "__capacity").val();
+        var description = $("#room-list").append().append().find("#Details_" + x + "__notes").val();
+        var radio = $("#room-list").append().append().find("#Details_" + x + "__any_projector").val();
+        $.ajax({
+            url: '@Url.Action("Editview","Office")',
+            type: 'get',
+            //data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $("#modal2 .modal-title").html("Create");
+                $("#modal2 .modal-body").html(result);
+                $("#modal2").modal("show");
+                $("#modal2").find("#code").val(code);
+                $("#modal2").find("#name").val(name);
+                $("#modal2").find("#capacity").val(capacity);
+                $("#modal2").find("#notes").val(description);
+                $("#modal2").find('input[value =' + radio + ']').attr('checked', 'checked');
+                $("#modal2").find("#takenumber").val(x)
+
+
+                //var data = $(this).attr('data')
+            }
+        });
+
+    }
+
+    $("#room-list").on("click", "#btndelete", function () {
+        var tr = $(this).parent().parent().parent().parent().parent();
+        tr.remove();
+        $.each($("#room-list tr"), function (index, item) {
+            $.each($(this).find('.form-control'), function (key, val) {
+                var id = $(this).attr('id').replace(/\d/g, index);
+                $(this).attr('id', id);
+                var name = $(this).attr('name').replace(/\d/g, index);
+                $(this).attr('name', name);
+            });
+            //$.each($(this).find('#btn-edit'), function (key, val) {
+            //    var name = $(this).val().replace(/\d/g, index);
+            //    $(this).val(name);
+            //});
+        });
+
+    })
+
+</script>

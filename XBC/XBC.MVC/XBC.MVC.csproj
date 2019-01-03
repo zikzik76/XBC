@@ -161,9 +161,12 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
+    <Compile Include="Controllers\OfficeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\TechnologyController.cs" />
     <Compile Include="Controllers\TechTrainerController.cs" />
+    <Compile Include="Controllers\TestimonyController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1141,6 +1144,23 @@
     <Content Include="Views\Class\_AddParticipant.cshtml" />
     <Content Include="Views\Class\_Delete.cshtml" />
     <Content Include="Views\Class\_List.cshtml" />
+    <Content Include="Views\Office\Index.cshtml" />
+    <Content Include="Views\Office\Editview.cshtml" />
+    <Content Include="Views\Office\ViewModal2.cshtml" />
+    <Content Include="Views\Office\_Create.cshtml" />
+    <Content Include="Views\Office\_Delete.cshtml" />
+    <Content Include="Views\Office\_Edit.cshtml" />
+    <Content Include="Views\Office\_List.cshtml" />
+    <Content Include="Views\Office\_OfficeByRoom.cshtml" />
+    <Content Include="Views\Office\_RoomById.cshtml" />
+    <Content Include="Views\Room\_Create.cshtml" />
+    <Content Include="Views\Room\_DeleteRoom.cshtml" />
+    <Content Include="Views\Room\_List.cshtml" />
+    <Content Include="Views\Testimony\Index.cshtml" />
+    <Content Include="Views\Testimony\_Create.cshtml" />
+    <Content Include="Views\Testimony\_Delete.cshtml" />
+    <Content Include="Views\Testimony\_Edit.cshtml" />
+    <Content Include="Views\Testimony\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,84 @@
+﻿
+@model XBC.ViewModel.RoomViewModel
+
+@using (Html.BeginForm("RoomById", "Office", FormMethod.Post, new { id = "form-create-room", name = "form-create-room" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" id="takenumber" class="hidden"/>
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.code, new { htmlAttributes = new { @class = "form-control", placeholder = "Code", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.capacity, new { htmlAttributes = new { @class = "form-control", placeholder = "Capacity", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.capacity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.any_projector, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <div class="radio">
+                    @Html.RadioButtonFor(model => model.any_projector, true) Yes &nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.any_projector, false) No
+                    @Html.ValidationMessageFor(model => model.any_projector, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Description", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="btn-group btn-group-sm">
+                    <input type="button" value="Add" class="btn btn-warning" id="btnpostroom" />
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+<script type="text/javascript">
+    $("#btnpostroom").click(function () {
+        var index = $("#modal2").find("#takenumber").val();
+        var code = $("#modal2").find("#code").val();
+        var name = $("#modal2").find("#name").val();
+        var capacity = $("#modal2").find("#capacity").val();
+        var notes = $("#modal2").find("#notes").val();
+        var chosenValue = $('input:radio[id="any_projector"]:checked').val();
+
+        $("#room-list").find("#Details_" + index + "__code").val(code)
+        $("#room-list").find("#Details_" + index + "__name").val(name)
+        $("#room-list").find("#Details_" + index + "__capacity").val(capacity)
+        $("#room-list").find("#Details_" + index + "__any_projector").val(chosenValue)
+        $("#room-list").find("#Details_" + index + "__notes").val(notes)
+        $("#modal2").modal('hide')
+    });
+
+
+
+
+
+</script>

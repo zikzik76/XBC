@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "TESTIMONY";
+}
+
+
+<div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+    </div>
+
+    <div class="panel-body">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-6 col-sm-4 text-left">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by title" id="btn-search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default glyphicon glyphicon-search btn-src" type="button"></button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                <div class="col-xs-6 col-sm-4">
+                </div>
+
+                <div class="col-xs-6 col-sm-4 text-right">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button id="btn-create-new" class="btn btn-success glyphicon glyphicon-plus" type="button" style="float:right"></button>
+                        </span>
+                    </div>
+                </div>
+
+            </div><!-- /.row -->
+
+            
+
+        </div>
+    </div>
+
+    <div id="data-list">
+        Loading...
+    </div>
+</div>
+
+<div class="modal fade" tabIndex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Modal Title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One Fine Body&hellip;</p>
+            </div>
+        </div><!--/Modal-Content-->
+    </div><!--/Modal-Dialog-->
+</div><!--/Modal-->
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List","Testimony")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        }
+
+        $('.btn-src').click(function () {
+            $.ajax({
+                url: '@Url.Action("List","Testimony")',
+                type: 'get',
+                data: { search: $("#btn-search").val() },
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        });
+
+        $('#btn-create-new').click(function () {
+            $.ajax({
+                url: '@Url.Action("Create","Testimony")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Testimony");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+    </script>
+}
+

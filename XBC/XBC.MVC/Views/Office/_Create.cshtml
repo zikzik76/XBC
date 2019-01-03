@@ -1,0 +1,200 @@
+﻿@model XBC.ViewModel.OfficeViewModel
+
+@using (Html.BeginForm("Create", "Office", FormMethod.Post, new { id = "form-create", name = "form-create" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="roomId" name="roomId" value="@ViewBag.RoomId">
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Description", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button id="btn-create-room" class="btn btn-success glyphicon glyphicon-plus" type="button" style="float:left">Room</button>
+            </span>
+        </div>
+
+        <table id="BaruTable" class="table ">
+            <thead>
+                <tr>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Capacity
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="room-list"></tbody>
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-8 col-md-10">
+                <div class="btn-group btn-group-sm">
+                    <input type="submit" value="Save" class="btn btn-default" id="btn-save" />
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+<script type="text/javascript">
+    $("#form-create").submit(function () {
+        var vData = $(this).serialize();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (result) {
+                if (result.success) {
+
+                    alert("Data successfully Saved! Office : " + result.entity.name);
+                    GetList();
+                    $(".modal").modal("hide"); // INI DIBAWAH alert("Data successfully Saved! Office : " + result.entity.name);
+                    console.log("============")
+
+
+                    $("#BaruTable").find("tr")
+
+                } else {
+                    alert("Error! " + result.message);
+                }
+            }
+        });
+     return false;
+    });
+
+    $("#btn-save").click(function () {
+        vData = $("form").serialize();
+        $.ajax({
+            url: "@Url.Action("Create")",
+            type: "post",
+            datatype: "json",
+            data: vData,
+            success: function (x) {
+                if(x.success == true)
+                {
+                    $("#modal1").modal('hide');
+                    GetList();
+                    var response = '<div class="alert alert-' + x.alertType + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + x.alertStrong + '</strong> ' + x.alertMessage + '.</div>';
+                    $('#AlertResponse').hide().html(response).fadeIn(1500);
+                    $('.alert').delay(5000).fadeOut('normal', function () {
+                        $(this).remove();
+                    });
+                }
+            }
+        });
+        return false;
+    });
+
+    $("#btn-create-room").click(function () {
+        //alert("Value Id : " + $(this).attr("data-id"));
+        $.ajax({
+            url: '@Url.Action("CreateRoom","Room")',
+            type: 'get',
+            //data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $("#modal2 .modal-title").html("Create");
+                $("#modal2 .modal-body").html(result);
+                $("#modal2").modal("show");
+            }
+        });
+    });
+
+
+    //pengen minta dijelasin kodingan ini bang. boleh gaaa? bayar atuh
+    //button edit tdkan ada di view modal1. oh iya soalnya kan ada di create office. kirain di simpen jsnya:(
+    //karna td dy baw aparameter jadi ttp harus d bawa parameternya. di inisialisasikan x. ngerti? yes tp ini button editnya sm kaya buttonedit index kan ya? cm kan kalau index data yg dibawa kalau disini dimisalin x,yes or not? iya tul sekaleh
+    function buttonedit(x) {
+
+        //dsni kita mulai dari Room-list. karena room-list berada di tbody.
+        //intinya kita pengen cari Details_index__code. caranya harus kaya gni
+        //append pertama itu erhenti di <tr>
+        //append kedua berheti di <td>
+        //ngerti? iyaaa
+
+        var code = $("#room-list").append().append().find("#Details_" + x + "__code").val();
+        var name = $("#room-list").append().append().find("#Details_" + x + "__name").val();
+        var capacity = $("#room-list").append().append().find("#Details_" + x + "__capacity").val();
+        var description = $("#room-list").append().append().find("#Details_" + x + "__notes").val();
+        var radio = $("#room-list").append().append().find("#Details_" + x + "__any_projector").val();
+        $.ajax({
+            url: '@Url.Action("Editview","Office")',
+            type: 'get',
+            //data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $("#modal2 .modal-title").html("Create");
+                $("#modal2 .modal-body").html(result);
+                $("#modal2").modal("show");
+                $("#modal2").find("#code").val(code);
+                $("#modal2").find("#name").val(name);
+                $("#modal2").find("#capacity").val(capacity);
+                $("#modal2").find("#notes").val(description);
+                $("#modal2").find('input[value =' + radio + ']').attr('checked', 'checked');
+                $("#modal2").find("#takenumber").val(x)
+
+
+                //var data = $(this).attr('data')
+            }
+        });
+
+    }
+
+    $("#room-list").on("click", "#btndelete", function () {
+        var tr = $(this).parent().parent().parent().parent().parent();
+        tr.remove();
+        $.each($("#room-list tr"), function (index, item) {
+            $.each($(this).find('.form-control'), function (key, val) {
+                var id = $(this).attr('id').replace(/\d/g, index);
+                $(this).attr('id', id);
+                var name = $(this).attr('name').replace(/\d/g, index);
+                $(this).attr('name', name);
+            });
+            //$.each($(this).find('#btn-edit'), function (key, val) {
+            //    var name = $(this).val().replace(/\d/g, index);
+            //    $(this).val(name);
+            //});
+        });
+
+    })
+
+</script>
