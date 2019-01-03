@@ -1,0 +1,134 @@
+﻿@model IEnumerable<XBC.ViewModel.TestViewModel>
+
+<input type="hidden" id="batchId" name="batchId" value="@ViewBag.BatchId" />
+<input type="hidden" id="batchTestId" name="batchTestId" value="@ViewBag.BatchTestId" />
+@*<input type="hidden" id="TestId" name="TestId" value="id" />*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+
+                <td>
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" class="btn btn-default btn-cancel hidden" data-id="@item.id" data-batch="@ViewBag.BatchId" data-BT="@item.batchTestId" onclick="cancelOff(this)">
+                            Cancel
+                        </button>
+
+                        <button type="button" class="btn btn-success btn-saveBT" data-id="@item.id" data-batch="@ViewBag.BatchId" data-BT="@item.batchTestId" onclick="cancelOn(this)">
+                            Choose
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+        @*<p data-totalTest="@i" class="hidden"> ini adalah banyak data </p>*@
+        <tr>
+            <td></td>
+            <td>
+                <div class="col-md-offset-2 col-md-10" style="float: left">
+                    <input type="button" value="Close" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+
+
+
+<script type="text/javascript">
+
+    @*var count = '@Model.Count()';*@
+
+    //function cancelOn() {
+    //    for (var i = 0  ; i < count ; i++) {
+    //        if (i == 0) {
+    //            $(".btn-saveBT" + i).addClass("hidden");
+    //            $(".btn-cancel" + i).removeClass("hidden");
+    //        }
+    //        else {
+    //            $(".btn-saveBT" + i).removeClass("hidden");
+    //            $(".btn-cancel" + i).addClass("hidden");
+    //        }
+    //    }
+    //}
+
+    alert(document.getElementById('batchTestId').value);
+    function cancelOn(obj) {
+        var tr = $(obj).closest('tr');
+        tr.find('.btn-cancel').removeClass('hidden');
+        $(obj).addClass('hidden');
+    }
+
+    function cancelOff(obj) {
+        var tr = $(obj).closest('tr');
+        tr.find('.btn-saveBT').removeClass('hidden');
+        $(obj).addClass('hidden');
+    }
+
+    //if (document.getElementById('batchTestId').value == 0)
+    //{
+    //    $(".btn-saveBT").addClass("hidden");
+    //    $(".btn-cancel").removeClass("hidden");
+    //}
+
+
+    //function cancelOff() {
+    //    $(".btn-saveBT").removeClass("hidden");
+    //    $(".btn-cancel").addClass("hidden");
+    //}
+
+    $('.btn-saveBT').click(function () {
+        //alert($(this).attr("data-id") + $(this).attr("data-batch"))
+        //console.log("Test Id:" + $(this).attr("data-id") + ", Batch Id:" + $(this).attr("data-batch") + ", Batch Test Id:" + $(this).attr("data-BT"));
+        $.ajax({
+                url: '@Url.Action("CreateBT", "Batch")',
+                type: "post",
+                data: { testId: $(this).attr("data-id") ,batchId: $(this).attr("data-batch") },
+                success: function (result) {
+                    $(".modal-title").html("Setup Test");
+                    if (result.success) {
+                        alert("Save SuccsessFull ! Name : " + result.entity.Name);
+                    }
+                    else {
+                        alert("Error : " + result.message);
+                    }
+                }
+            });
+    });
+
+    $('.btn-cancel').click(function () {
+        //alert($(this).attr("data-id"))
+        //console.log("Test Id:" + $(this).attr("data-id") + ", Batch Id:" + $(this).attr("data-batch") + ", Batch Test Id:" + $(this).attr("data-BT"));
+        $.ajax({
+                url: '@Url.Action("DeleteBT", "Batch")',
+                type: "post",
+                data: { id: $(this).attr("data-BT") },
+                success: function (result) {
+                    $(".modal-title").html("Setup Test");
+                    if (result.success) {
+                        alert("Delete SuccsessFull ! Name : " + result.entity.Name);
+                    }
+                    else {
+                        alert("Error : " + result.message);
+                    }
+                }
+            });
+    });
+
+</script>

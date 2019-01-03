@@ -1,0 +1,61 @@
+﻿@model IEnumerable<XBC.ViewModel.ClassViewModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TechnologyBatch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.biodataName)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TechnologyBatch)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.biodataName)
+        </td>
+        
+        <td>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    
+                    <li class="btn-delete" data-id="@item.id" title="delete">Delete</li>
+                    @*<button type="button" class="btn btn-warning btn-edit" data-id="@item.id" title="Edit">
+                        Edit
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-delete" data-id="@item.id" title="Delete">
+                        Delete
+                    </button>*@
+                </ul>
+            </div>
+        </td>
+    </tr>
+}
+
+</table>
+<script type="text/javascript">
+    $(".btn-delete").click(function () {
+        $.ajax({
+            url: '@Url.Action("Delete","Class")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Delete");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+</script>

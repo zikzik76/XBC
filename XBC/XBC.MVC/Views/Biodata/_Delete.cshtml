@@ -1,0 +1,198 @@
+﻿@model XBC.ViewModel.BiodataViewModel
+
+<h3>Are you sure you want to delete @Html.DisplayFor(model => model.name)?</h3>
+<div>
+
+    @*<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastEducation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastEducation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.graduationYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.graduationYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.educationalLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.educationalLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.majors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.majors)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gpa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gpa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bootcampTestType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bootcampTestType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.iq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.iq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.du)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.du)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.arithmetic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.arithmetic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nestedLogic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nestedLogic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.joinTable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.joinTable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.notes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.interviewer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.interviewer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isDelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isDelete)
+        </dd>
+
+    </dl>*@
+
+    @using (Html.BeginForm("Delete", "Biodata", FormMethod.Post, new { id = "form-delete", name = "form-delete" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.name)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="btn-group btn-group-sm">
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $("#form-delete").submit(function () {
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (result) {
+                if (result.success) {
+                    alert("Delete successful! Name :" + result.entity.name);
+                    $(".modal").modal("hide");
+                    GetList();
+                }
+                else {
+                    allert("Error! " + result.message);
+                }
+            }
+        });
+        return false;
+    })
+</script>

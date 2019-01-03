@@ -51,6 +51,28 @@ namespace XBC.Repo
             }
             return result != null ? result : new TrainerViewModel(); //NB :jika hasil sama dengan null, maka dia akan menampilkan hasil kosong, bukan error
         }
+
+        //Get ByTrainer
+        public static List<TrainerViewModel> ByTrainer()
+        {
+            List<TrainerViewModel> result = new List<TrainerViewModel>();
+
+            using (var db = new XBCContext())
+            {
+                result = (from tr in db.t_trainer
+                          where tr.is_delete == false
+                          select new TrainerViewModel
+                          {
+                              id = tr.id,
+                              name = tr.name,
+                              notes = tr.notes
+
+                          }).ToList();
+
+            }
+            return result;
+        }
+
         //create new & update
         public static ResponseResult CreateEdit(TrainerViewModel entity)
         {

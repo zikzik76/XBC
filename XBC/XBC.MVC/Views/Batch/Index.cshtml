@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "Batch";
+}
+
+@*<h3>@ViewBag.Title</h3>*@
+<style>
+    .panel-heading {
+        color: black !important;
+    }
+</style>
+
+<div class=" panel panel-primary">
+    <!-- Default panel contents-->
+    <div class="panel-heading">
+        @*@using (Html.BeginForm("Search", "Biodata", FormMethod.Get))
+            {*@
+        @*<input type="text" placeholder="Search by name/majors">*@
+        @Html.TextBox("Search", "", new { placeholder = "Search by Technology/name" })
+        <button type="submit" id="btn-search">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+
+        <button type="button" id="btn-create-new" class="btn btn-danger" title="Create New" style="float: right;">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+
+
+
+    </div>
+    <div class="panel-body">
+        <p>...</p>
+    </div>
+    @*@if(Model.Count() == 0)
+        {
+            <p>No match any document</p>
+        }*@
+    <!--Table-->
+    <div id="data-list">
+
+        Loading
+    </div>
+</div>
+
+
+
+<!--Button modal-->
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!--/.modal-content-->
+    </div><!--/.modal-dialog-->
+</div><!--/.modal-->
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#btn-search').click(function () {
+                var SearchValue = $("#Search").val();
+                $.ajax({
+                    url: '@Url.Action("Search", "Batch")',
+                    type: 'get',
+                    data: {"searching" : SearchValue},
+                    success: function (result) {
+                        $("#data-list").html(result);
+                    }
+                });
+            });
+
+            GetList();
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List", "Batch")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        }
+
+        $('#btn-create-new').click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "Batch")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Add Batch");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+    </script>
+}
+

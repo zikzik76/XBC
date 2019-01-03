@@ -8,10 +8,43 @@ using XBC.ViewModel;
 
 namespace XBC.Repo
 {
+    //  HANDLE Circular references in JSONSerializer and StackOverflow exceptions with Create Manual Class
+    public class BioAfterUpdate
+    {
+        public long id { get; set; }
+        public string name { get; set; }
+        public string gender { get; set; }
+        public string lastEducation { get; set; }
+        public string graduationYear { get; set; }
+        public string educationalLevel { get; set; }
+        public string majors { get; set; }
+        public string gpa { get; set; }
+        public long? bootcampTestType { get; set; }
+        public int? iq { get; set; }
+        public string du { get; set; }
+        public int? arithmetic { get; set; }
+        public int? nestedLogic { get; set; }
+        public int? joinTable { get; set; }
+        public string tro { get; set; }
+        public string notes { get; set; }
+        public string interviewer { get; set; }
+        public long createdBy { get; set; }
+        public DateTime createdOn { get; set; }
+        public long? modified_by { get; set; }
+        public DateTime? modified_on { get; set; }
+        public long? deleted_by { get; set; }
+        public DateTime? deleted_on { get; set; }
+        public bool isDelete { get; set; }
+    }
+
     public class BiodataRepo
     {
+        public static Object dataBeforeUpdate;  // TEMPORARY BEFORE UPDATING DATA
+        //public static Object dataAfterUpdate;   // TEMPORARY AFTER UPDATING DATA
+        public static Object dataBeforeDelete;  // TEMPORARY BEFORE DELETING DATA
+
         //Get All
-        public static List<BiodataViewModel> All()
+        public static List<BiodataViewModel> All(/*long userid*/)
         {
             List<BiodataViewModel> result = new List<BiodataViewModel>();
             using (var db = new XBCContext())
@@ -24,6 +57,8 @@ namespace XBC.Repo
                               name = b.name,
                               majors = b.majors,
                               gpa = b.gpa,
+                              createdBy = 1,
+                              createdOn = DateTime.Now,
                               isDelete = b.is_delete
                           }).ToList();
             }
@@ -40,6 +75,7 @@ namespace XBC.Repo
                           where b.is_delete == false && b.name.StartsWith(searching) || b.is_delete == false && b.majors.StartsWith(searching) || b.is_delete == false && searching == null
                           select new BiodataViewModel
                           {
+                              id = b.id,
                               name = b.name, //id view Model
                               majors = b.majors,
                               gpa = b.gpa,
@@ -52,7 +88,7 @@ namespace XBC.Repo
         }
 
         //Get By Id
-        public static BiodataViewModel ById(int id)
+        public static BiodataViewModel ById(int id/*, long userid*/)
         {
             BiodataViewModel result = new BiodataViewModel();
             using (var db = new XBCContext())
@@ -77,6 +113,8 @@ namespace XBC.Repo
                               tro = b.tro,
                               notes = b.notes,
                               interviewer = b.interviewer,
+                              modified_by = 1,
+                              modified_on = DateTime.Now
 
 
                           }).FirstOrDefault();
@@ -86,7 +124,7 @@ namespace XBC.Repo
         }
 
         //Create New
-        public static ResponseResult CreateEdit(BiodataViewModel entity)
+        public static ResponseResult CreateEdit(BiodataViewModel entity/*, long userid*/)
         {
             ResponseResult result = new ResponseResult();
 
@@ -112,8 +150,12 @@ namespace XBC.Repo
                         db.SaveChanges();
 
                         result.Entity = entity;
+
+                        //  AUDIT LOG => "INSERT"
+                        AuditRepo.Insert(bio);
                     }
                     else
+                    //update
                     {
                         t_biodata bio = db.t_biodata.Where(o => o.id == entity.id).FirstOrDefault();
 
@@ -139,11 +181,38 @@ namespace XBC.Repo
 
                             bio.modified_by = 1;
                             bio.modified_on = DateTime.Now; ;
-                            bio.deleted_by = 1;
-                            bio.deleted_on = DateTime.Now;
+
 
                             db.SaveChanges();
                             result.Entity = entity;
+
+                            //  AUDIT LOG => "MODIFY" UPDATE
+                            BioAfterUpdate dau = new BioAfterUpdate();
+                            dau.id = bio.id;
+                            dau.name = bio.name;
+                            dau.gender = bio.gender;
+                            dau.lastEducation = bio.last_education;
+                            dau.graduationYear = bio.graduation_year;
+                            dau.educationalLevel = bio.educational_level;
+                            dau.majors = bio.majors;
+                            dau.gpa = bio.gpa;
+                            dau.bootcampTestType = bio.bootcamp_test_type;
+                            dau.iq = bio.iq;
+                            dau.du = bio.du;
+                            dau.arithmetic = bio.arithmetic;
+                            dau.nestedLogic = bio.nested_logic;
+                            dau.joinTable = bio.join_table;
+                            dau.tro = bio.tro;
+                            dau.notes = bio.notes;
+                            dau.interviewer = bio.interviewer;
+
+                            dau.createdBy = bio.created_by;
+                            dau.createdOn = bio.created_on;
+
+                            dau.modified_by = bio.modified_by;
+                            dau.modified_on = bio.modified_on;
+
+                            AuditRepo.Update(dataBeforeUpdate, dau);
 
                         }
                         else
@@ -165,7 +234,7 @@ namespace XBC.Repo
         }
 
         //Delete
-        public static ResponseResult Delete(BiodataViewModel entity)
+        public static ResponseResult Delete(BiodataViewModel entity/*, long userid*/)
         {
             //id -> Variant Id
             ResponseResult result = new ResponseResult();
@@ -178,9 +247,45 @@ namespace XBC.Repo
                     {
                         //db.t_biodata.Remove(bio);
                         bio.is_delete = true;
+
+                        bio.deleted_by = 1;
+                        bio.deleted_on = DateTime.Now;
                         db.SaveChanges();
 
                         result.Entity = entity;
+
+                        //  AUDIT LOG => "MODIFY" DELETE
+                        BioAfterUpdate dau = new BioAfterUpdate();
+                        dau.id = bio.id;
+                        dau.name = bio.name;
+                        dau.gender = bio.gender;
+                        dau.lastEducation = bio.last_education;
+                        dau.graduationYear = bio.graduation_year;
+                        dau.educationalLevel = bio.educational_level;
+                        dau.majors = bio.majors;
+                        dau.gpa = bio.gpa;
+                        dau.bootcampTestType = bio.bootcamp_test_type;
+                        dau.iq = bio.iq;
+                        dau.du = bio.du;
+                        dau.arithmetic = bio.arithmetic;
+                        dau.nestedLogic = bio.nested_logic;
+                        dau.joinTable = bio.join_table;
+                        dau.tro = bio.tro;
+                        dau.notes = bio.notes;
+                        dau.interviewer = bio.interviewer;
+
+                        dau.createdBy = bio.created_by;
+                        dau.createdOn = bio.created_on;
+
+                        dau.modified_by = bio.modified_by;
+                        dau.modified_on = bio.modified_on;
+
+                        dau.deleted_by = bio.deleted_by;
+                        dau.deleted_on = bio.deleted_on;
+
+                        dau.isDelete = bio.is_delete;
+
+                        AuditRepo.Update(dataBeforeUpdate, dau);
                     }
                     else
                     {
