@@ -1,0 +1,28 @@
+﻿@model IEnumerable<XBC.ViewModel.TestViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-remove" data-id="@item.id" data-dismiss="modal" title="Select" onclick="SelectProduct(this)">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

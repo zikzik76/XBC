@@ -1,0 +1,83 @@
+﻿@model IEnumerable<XBC.ViewModel.BiodataViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.majors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gpa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.majors)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gpa)
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li class="btn-edit" data-id="@item.id" title="Edit">
+                                Edit
+                            </li>
+
+                            <li class="btn-delete" data-id="@item.id" title="Delete">
+                                Delete
+                            </li>
+                            @*<li>@Html.ActionLink("Edit", "Index", "Category")</li>
+                                <li>@Html.ActionLink("Delete", "Index", "Variant")</li>*@
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+    $(".btn-edit").click(function () {
+        //alert("Value Id : " + $(this).attr("data-Id"));
+        $.ajax({
+            url: '@Url.Action("Edit","Biodata")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Edit");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+
+    $(".btn-delete").click(function () {
+        //alert("Value Id : " + $(this).attr("data-Id"));
+        $.ajax({
+            url: '@Url.Action("Delete","Biodata")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Delete");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+    });
+</script>

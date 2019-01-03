@@ -153,8 +153,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BatchController.cs" />
+    <Compile Include="Controllers\batchTestController.cs" />
+    <Compile Include="Controllers\BiodataController.cs" />
     <Compile Include="Controllers\BTController.cs" />
     <Compile Include="Controllers\BTTController.cs" />
+    <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -1124,6 +1128,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\batchTest\" />
+    <Folder Include="Views\Batch\" />
+    <Folder Include="Views\Biodata\" />
+    <Folder Include="Views\Class\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

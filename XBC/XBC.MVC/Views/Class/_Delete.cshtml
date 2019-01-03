@@ -1,0 +1,118 @@
+﻿@model XBC.ViewModel.ClassViewModel
+
+<h3>Are you sure you want to delete @Html.DisplayFor(model => model.biodataName)?</h3>
+<div>
+    
+    @*<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.batchId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.batchId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.batchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.batchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.biodataId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.biodataId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.biodataName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.biodataName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.technologyId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.technologyId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.technologyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.technologyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TechnologyBatch)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TechnologyBatch)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.created_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.created_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.created_on)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.created_on)
+        </dd>
+
+    </dl>*@
+
+    @using (Html.BeginForm("Delete", "Class", FormMethod.Post, new { id = "form-delete", name = "form-delete" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="btn-group btn-group-sm">
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $("#form-delete").submit(function () {
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (result) {
+                if (result.success) {
+                    alert("Delete successful! Name :" + result.entity.name);
+                    $(".modal").modal("hide");
+                    GetList();
+                }
+                else {
+                    allert("Error! " + result.message);
+                }
+            }
+        });
+        return false;
+    })
+</script>
+

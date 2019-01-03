@@ -33,6 +33,7 @@ namespace XBC.Repo
             }
             return result;
         }
+
         //Get All
         public static List<TechnologyViewModel> All()
         {
@@ -41,14 +42,36 @@ namespace XBC.Repo
             using (var db = new XBCContext())
             {
                 result = (from tc in db.t_technology
+                          join b in db.t_batch
+                          on tc.id equals b.technology_id
                           where tc.is_delete == false
                           orderby tc.name ascending
                           select new TechnologyViewModel
                           {
                               id = tc.id,
                               name = tc.name,
-                              notes = tc.notes,
-                              created_by = tc.created_by
+                              notes = tc.notes
+
+                          }).ToList();
+
+            }
+            return result;
+        }
+
+        //By Technology
+        public static List<TechnologyViewModel> ByTechnology()
+        {
+            List<TechnologyViewModel> result = new List<TechnologyViewModel>();
+
+            using (var db = new XBCContext())
+            {
+                result = (from tc in db.t_technology
+                          where tc.is_delete == false
+                          select new TechnologyViewModel
+                          {
+                              id = tc.id,
+                              name = tc.name,
+                              notes = tc.notes
 
                           }).ToList();
 

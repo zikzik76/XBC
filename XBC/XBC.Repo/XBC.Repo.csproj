@@ -57,14 +57,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditRepo.cs" />
+    <Compile Include="BatchRepo.cs" />
+    <Compile Include="BatchTestRepo.cs" />
     <Compile Include="BiodataRepo.cs" />
     <Compile Include="BTRepo.cs" />
     <Compile Include="BTTRepo.cs" />
+    <Compile Include="ClassRepo.cs" />
     <Compile Include="MonitoringRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleRepo.cs" />
+    <Compile Include="RoomRepo.cs" />
     <Compile Include="TechnologyRepo.cs" />
     <Compile Include="TechTrainerRepo.cs" />
+    <Compile Include="TestRepo.cs" />
     <Compile Include="TrainerRepo.cs" />
   </ItemGroup>
   <ItemGroup>

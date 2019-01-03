@@ -1,0 +1,180 @@
+﻿@model IEnumerable<XBC.DataModel.t_biodata>
+@*@model IEnumerable<XBC.ViewModel.BiodataViewModel>*@
+@{
+    ViewBag.Title = "Biodata";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<div class=" panel panel-primary">
+    <!-- Default panel contents-->
+    <div class="panel-heading">
+        @using (Html.BeginForm("Search", "Biodata", FormMethod.Get))
+        {
+            @*<input type="text" placeholder="Search by name/majors">*@
+            @Html.TextBox("searching")
+            <button type="submit" id="search">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" id="btn-create-new" class="btn btn-danger" title="Create New" style="float: right;">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        }
+
+
+    </div>
+    <div class="panel-body">
+        <p>...</p>
+    </div>
+    @*@if(Model.Count() == 0)
+        {
+            <p>No match any document</p>
+        }*@
+    <!--Table-->
+    <div id="data-list">
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td>
+                    No Match Any Document
+                </td>
+            </tr>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.majors)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.gpa)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.majors)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.gpa)
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <button type="button" class="btn btn-warning btn-edit" data-id="@item.id" title="Edit">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+
+                                    <button type="button" class="btn btn-danger btn-delete" data-id="@item.id" title="Delete">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </ul>
+                            </div>
+
+                            @*<button type="button" class="btn btn-warning btn-edit" data-id="@item.id" title="Edit">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+
+                                <button type="button" class="btn btn-danger btn-delete" data-id="@item.id" title="Delete">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>*@
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+
+    </div>
+</div>
+
+
+
+<!--Button modal-->
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!--/.modal-content-->
+    </div><!--/.modal-dialog-->
+</div><!--/.modal-->
+
+@section Scripts{
+    <script type="text/javascript">
+
+        @*$(document).ready(function () {
+            GetList();
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List", "Biodata")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        }*@
+
+        $('#search').click(function () {
+            $.ajax({
+                url: '@Url.Action("Search", "Biodata")',
+                type: 'get',
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        });
+
+        $('#btn-create-new').click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "Biodata")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Add Biodata");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+        $(".btn-edit").click(function () {
+            //alert("Value Id : " + $(this).attr("data-Id"));
+            $.ajax({
+                url: '@Url.Action("Edit","Biodata")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("Edit");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+    </script>
+}
+
