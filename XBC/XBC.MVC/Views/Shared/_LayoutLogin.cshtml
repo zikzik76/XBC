@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="row">
+            <div class="login-logo col-lg-3 col-lg-offset-2">
+                <b>XBC</b>
+            </div>
+        </div>
+        <!-- /.login-logo -->
+        <div class="row">
+            <div class="login-box-body  col-lg-3 col-lg-offset-2">
+                <p class="login-box-msg">@ViewBag.Task</p>
+                @RenderBody()
+            </div>
+            <!-- /.login-box-body -->
+        </div>
+        
+    </div>
+    <!-- /.login-box -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @section Scripts {
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+    }
+
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(function () {
+            $('[data-mask]').inputmask();
+            $('.select2').select2();
+
+            $('.icheck').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' /* optional */
+            });
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

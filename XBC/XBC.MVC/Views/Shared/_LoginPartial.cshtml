@@ -1,0 +1,16 @@
+﻿@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav" }))
+    {
+        
+    }
+}
+else
+{
+    @*<ul class="nav navbar-nav">
+        <li>@Html.ActionLink("Log in", "Login", "User", routeValues: null, htmlAttributes: new { id = "login" })</li>
+    </ul>*@
+<ul class="nav navbar-nav">
+    <li>@Html.ActionLink("Log Out", "Logout", "User", routeValues: null, htmlAttributes: new { id = "logout" })</li>
+</ul>
+}

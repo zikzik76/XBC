@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>Role</h1>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="form-control" id="name" placeholder="Search by Code" />
+            </div>
+        </div>
+        <div class="col-lg-2 col-lg-offset-7">
+            <button type="button" id="btn-new" class="btn btn-warning">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" id="role-list">
+            <h3>Loading...</h3>
+        </div>
+    </div>
+</div>
+
+@* modal pop up *@
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+        });
+
+        $("#btn-new").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "Role")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Create New Role");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show"); //class modal ditampilkan
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List","Role")',
+                type: 'get',
+                data: { search: $("#name").val()},
+                success: function (result) {
+                    $("#role-list").html(result);
+                },
+                error: function (err) {
+                    $("#role-list").html(err);
+                }
+            });
+        }
+
+        $("#role-list").on("click", ".btn-edit", function () {
+            $.ajax({
+                url: '@Url.Action("Edit", "Role")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("Edit Role");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+
+        $("#role-list").on("click", ".btn-deactive", function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "Role")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("Deactivate Role?");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+        $("#name").keyup(function () {
+        $.ajax({
+            url: '@Url.Action("List", "Role")',
+            type: 'get',
+            data: { search: $("#name").val()},
+            success: function (result) {
+                GetList();
+            }
+            });
+        })
+    </script>
+}

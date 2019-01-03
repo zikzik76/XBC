@@ -1,0 +1,179 @@
+﻿@using XBC.MVC.WebApp.Security
+@using XBC.ViewModel
+@using XBC.Repo
+
+
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="~/AdminLTE/dist/img/user.svg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@SessionPersister.UserName</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <ul class="sidebar-menu" style=" height: auto; overflow: hidden; width: auto; padding-bottom: 20%;">
+            <li class="header"><strong>MAIN NAVIGATION</strong></li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-paperclip"></i>
+                    <span>Menu User</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Role")">
+                            <i class="fa fa-book"></i><span>Role</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "User")">
+                            <i class="fa fa-book"></i><span>User</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-paperclip"></i>
+                    <span>Menu</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Menu")">
+                            <i class="fa fa-book"></i><span>Menu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "MenuAcses")">
+                            <i class="fa fa-book"></i><span>Menu Access</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-paperclip"></i>
+                    <span>Question</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Question")">
+                            <i class="fa fa-book"></i><span>Question</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Version")">
+                            <i class="fa fa-book"></i><span>Version</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-paperclip"></i>
+                    <span>Assignment</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Batch")">
+                            <i class="fa fa-book"></i><span>Batch</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Biodata")">
+                            <i class="fa fa-book"></i><span>Biodata</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Assignment")">
+                            <i class="fa fa-book"></i><span>Assingment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Monitoring")">
+                            <i class="fa fa-book"></i><span>Monitoring</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Idle")">
+                            <i class="fa fa-book"></i><span>Idle News</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-paperclip"></i>
+                    <span>Bootcamp</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Test")">
+                            <i class="fa fa-book"></i><span>Test</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Trainer")">
+                            <i class="fa fa-book"></i><span>Trainer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Technology")">
+                            <i class="fa fa-book"></i><span>Technology</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Bootcamptype")">
+                            <i class="fa fa-book"></i><span>Bootcamp Type</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-paperclip"></i>
+                    <span>Feedback</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Feedback")">
+                            <i class="fa fa-book"></i><span>Feedback</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Testimony")">
+                            <i class="fa fa-book"></i><span>Testimony</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>@SessionPersister.UserName</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href='@Url.Action("Logout", "Account")'>
+                            <i class="fa fa-sign-out"></i><span>Logout</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Index", "Account")'>
+                            <i class="fa fa-sign-out"></i><span>Login</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</aside>
