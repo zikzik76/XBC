@@ -21,15 +21,6 @@ namespace XBC.MVC.Controllers
            return PartialView("_List", TechnologyRepo.All());
         }
 
-        //public ActionResult Index(string search)
-        //{
-        //    return View(TechnologyRepo.All(search));
-        //}
-        //public ActionResult List(string search)
-        //{
-        //    return PartialView("_List", TechnologyRepo.All(search));
-        //}
-
         public ActionResult Search(string search)
         {
             return PartialView("_List", TechnologyRepo.GetAllBySearch(search));

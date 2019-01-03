@@ -5,12 +5,14 @@
 
 @*<h3>List of @ViewBag.Title</h3>*@
 
-@Styles.Render("~/AdminLTE/plugins/datatables/css")
+@*@Styles.Render("~/AdminLTE/plugins/datatables/css")*@
 
 <div class="panel panel-footer">
     <!-- Default panel Contents-->
     <div class="panel-heading">
-
+        <div class="col-xs-6 col-sm-6 text-left">
+            @Html.TextBox("Search", "", new { placeholder = "Search by name" })<button type="submit" id="btn-search"><i class="fa fa-search"></i></button>
+        </div>
         <div class="row">
             <div class="col-md-offset-11 col-md-1">
                 <button id="btn-create-new" type="button" class="btn-success btn-sm">
@@ -19,28 +21,6 @@
             </div>
         </div>
     </div>
-
-    @*<div class="row">
-        <div class="col-lg-6">
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-                <input type="text" class="form-control" placeholder="Search for...">
-            </div><!-- /input-group -->
-        </div><!-- /.col-lg-6 -->
-        <div class="col-lg-6">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            </div><!-- /input-group -->
-        </div><!-- /.col-lg-6 -->
-    </div><!-- /.row -->*@
-
-
-
     <div class="panel-body">
         @*<p>....</p>*@
     </div>
@@ -64,12 +44,23 @@
     </div><!--/.modal-->
     
     @section Scripts{
-        @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+        @*@Scripts.Render("~/AdminLTE/plugins/datatables/js")*@
         <script type="text/javascript">
             $(document).ready(function () {
                 GetList();
             });
 
+            $("#btn-search").click(function () {
+                var SearchValue = $("#Search").val();
+                $.ajax({
+                    type: "get",
+                    url: '@Url.Action("Search", "Trainer")',
+                    data: { "search": SearchValue },
+                    success: function (result) {
+                        $("#data-list").html(result)
+                    }
+                });
+            });
 
             function GetList() {
                 $.ajax({

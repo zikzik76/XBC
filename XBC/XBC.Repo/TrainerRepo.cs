@@ -11,6 +11,29 @@ namespace XBC.Repo
     public class TrainerRepo
     {
 
+        public static Object dataBeforeUpdate;  // TEMPORARY BEFORE UPDATING DATA
+        public static Object dataAfterUpdate;   // TEMPORARY AFTER UPDATING DATA
+        public static Object dataBeforeDelete;  // TEMPORARY BEFORE DELETING DATA
+        //search
+        public static List<TrainerViewModel> GetAllBySearch(string search)
+        {
+            List<TrainerViewModel> result = new List<TrainerViewModel>();
+            using (var db = new XBCContext())
+            {
+                result = (from tr in db.t_trainer
+                          where tr.is_delete == false && tr.name.Contains(search) || search == null
+                          select new TrainerViewModel
+                          {
+                              id = tr.id,
+                              name = tr.name,
+                              notes = tr.notes,
+                              created_by = tr.created_by
+
+                          }).ToList();
+
+            }
+            return result;
+        }
         //Get All
         public static List<TrainerViewModel> All()
         {
@@ -39,7 +62,7 @@ namespace XBC.Repo
             {
                 //id trainer.id
                 result = (from tr in db.t_trainer
-                          //join u in db.
+                              //join u in db.
                           where tr.id == id
                           select new TrainerViewModel
                           {
@@ -49,8 +72,14 @@ namespace XBC.Repo
                               created_by_name = "Awi"
                           }).FirstOrDefault();
             }
+            //  dataBeforeUpdate temporary for before update audit_log
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
             return result != null ? result : new TrainerViewModel(); //NB :jika hasil sama dengan null, maka dia akan menampilkan hasil kosong, bukan error
         }
+
 
         //Get ByTrainer
         public static List<TrainerViewModel> ByTrainer()
@@ -73,6 +102,29 @@ namespace XBC.Repo
             return result;
         }
 
+        //private static bool ByName(string name)
+        //{
+        //    TrainerViewModel result = new TrainerViewModel();
+
+        //    using (var db = new XBCContext())
+        //    {
+        //        //id technology.id
+        //        result = (from tr in db.t_trainer
+        //                  where tr.name.ToLower() == name.ToLower() && tr.is_delete == false
+        //                  select new TrainerViewModel
+        //                  {
+        //                      id = tr.id,
+        //                      name = tr.name,
+        //                      notes = tr.notes,
+        //                      created_by = tr.created_by
+        //                  }).FirstOrDefault();
+
+        //    }
+        //    return result != null ? false : true;
+        //}
+
+
+
         //create new & update
         public static ResponseResult CreateEdit(TrainerViewModel entity)
         {
@@ -82,9 +134,11 @@ namespace XBC.Repo
             {
                 using (var db = new XBCContext())
                 {
-                    //insert
+                    //bool isNameCreated = ByName(entity.name);
                     if (entity.id == 0)
                     {
+                        //if (isNameCreated == true)
+                        //{
                         t_trainer trainer = new t_trainer();
                         trainer.name = entity.name;
                         trainer.notes = entity.notes;
@@ -96,6 +150,8 @@ namespace XBC.Repo
                         db.SaveChanges();
 
                         result.Entity = entity;
+
+                        AuditRepo.Insert(trainer);
                     }
                     else
                     {
@@ -112,6 +168,10 @@ namespace XBC.Repo
                             db.SaveChanges();
 
                             result.Entity = entity;
+
+                            //  Audit Log "UPDATE"
+                            dataAfterUpdate = trainer;
+                            AuditRepo.Update(dataBeforeUpdate, dataAfterUpdate);
                         }
                         else
                         {
@@ -124,7 +184,7 @@ namespace XBC.Repo
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = ex.Message;
+                result.Message = "Data kemungkinan ganda atau tidak lengkap";
             }
             return result;
         }
@@ -149,6 +209,10 @@ namespace XBC.Repo
                         db.SaveChanges();
 
                         result.Entity = entitiy;
+
+                        //  Audit Log "UPDATE"
+                        dataAfterUpdate = trainer;
+                        AuditRepo.Update(dataBeforeUpdate, dataAfterUpdate);
                     }
                     else
                     {

@@ -10,7 +10,10 @@ namespace XBC.Repo
 {
     public class TechnologyRepo
     {
-        //Get All
+        public static Object dataBeforeUpdate;  // TEMPORARY BEFORE UPDATING DATA
+        public static Object dataAfterUpdate;   // TEMPORARY AFTER UPDATING DATA
+        public static Object dataBeforeDelete;  // TEMPORARY BEFORE DELETING DATA
+        //search
         public static List<TechnologyViewModel> GetAllBySearch(string search)
         {
             List<TechnologyViewModel> result = new List<TechnologyViewModel>();
@@ -42,6 +45,7 @@ namespace XBC.Repo
                           join b in db.t_batch
                           on tc.id equals b.technology_id
                           where tc.is_delete == false
+                          orderby tc.name ascending
                           select new TechnologyViewModel
                           {
                               id = tc.id,
@@ -90,55 +94,59 @@ namespace XBC.Repo
                               created_by = tc.created_by
                           }).FirstOrDefault();
             }
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
             return result != null ? result : new TechnologyViewModel();
         }
 
-        private static bool ByName(string name)
-        {
-            TechnologyViewModel result = new TechnologyViewModel();
+        //private static bool ByName(string name)
+        //{
+        //    TechnologyViewModel result = new TechnologyViewModel();
 
-            using (var db = new XBCContext())
-            {
-                //id technology.id
-                result = (from tc in db.t_technology
-                          where tc.name.ToLower() == name.ToLower() && tc.is_delete == false
-                          select new TechnologyViewModel
-                          {
-                              id = tc.id,
-                              name = tc.name,
-                              notes = tc.notes,
-                              created_by = tc.created_by
-                          }).FirstOrDefault();
+        //    using (var db = new XBCContext())
+        //    {
+        //        //id technology.id
+        //        result = (from tc in db.t_technology
+        //                  where tc.name.ToLower() == name.ToLower() && tc.is_delete == false
+        //                  select new TechnologyViewModel
+        //                  {
+        //                      id = tc.id,
+        //                      name = tc.name,
+        //                      notes = tc.notes,
+        //                      created_by = tc.created_by
+        //                  }).FirstOrDefault();
 
-            }
-            return result != null ? false : true;
-        }
+        //    }
+        //    return result != null ? false : true;
+        //}
 
-        private static bool ByEditName(string name, long id)
-        {
-            TechnologyViewModel result = new TechnologyViewModel();
+        //private static bool ByEditName(string name, long id)
+        //{
+        //    TechnologyViewModel result = new TechnologyViewModel();
 
-            using (var db = new XBCContext())
-            {
-                //id technology.id
-                result = (from tc in db.t_technology
-                          where tc.id == id 
-                          select new TechnologyViewModel
-                          {
-                              id = tc.id,
-                              name = tc.name,
-                              notes = tc.notes,
-                              created_by = tc.created_by
-                          }).FirstOrDefault();
+        //    using (var db = new XBCContext())
+        //    {
+        //        //id technology.id
+        //        result = (from tc in db.t_technology
+        //                  where ((tc.id == id && tc.name.ToLower() == name.ToLower()) && tc.is_delete == false)
+        //                  select new TechnologyViewModel
+        //                  {
+        //                      id = tc.id,
+        //                      name = tc.name,
+        //                      notes = tc.notes,
+        //                      created_by = tc.created_by
+        //                  }).FirstOrDefault();
 
-            }
-            return result != null ? true : false;
-        }
+        //    }
+        //    return result != null ? true : false;
+        //}
 
         //create new & update
         public static ResponseResult CreateEdit(TechnologyViewModel entity)
         {
-
+            
 
             ResponseResult result = new ResponseResult();
             //jika nama sudah di create
@@ -149,114 +157,117 @@ namespace XBC.Repo
                 using (var db = new XBCContext())
                 {
                     //insert
-                    bool isNameCreated = ByName(entity.name);
+                    //bool isNameCreated = ByName(entity.name);
                     if (entity.id == 0)
                     {
-                        if (isNameCreated == true)
+                        //if (isNameCreated == true)
+                        //{
+                        t_technology technology = new t_technology();
+                        technology.name = entity.name;
+                        technology.notes = entity.notes;
+
+                        technology.created_by = 1;
+                        technology.created_on = DateTime.Now;
+
+                        foreach (var item in entity.trainers)
                         {
-                            t_technology technology = new t_technology();
-                            technology.name = entity.name;
-                            technology.notes = entity.notes;
+                            t_technology_trainer tctr = new t_technology_trainer();
+                            tctr.technology_id = technology.id;
+                            tctr.trainer_id = item.id;
 
-                            technology.created_by = 1;
-                            technology.created_on = DateTime.Now;
+                            tctr.created_by = 1;
+                            tctr.created_on = DateTime.Now;
 
-                            foreach (var item in entity.trainers)
-                            {
-                                t_technology_trainer tctr = new t_technology_trainer();
-                                tctr.technology_id = technology.id;
-                                tctr.trainer_id = item.id;
+                            db.t_technology_trainer.Add(tctr);
 
-                                tctr.created_by = 1;
-                                tctr.created_on = DateTime.Now;
-
-                                db.t_technology_trainer.Add(tctr);
-
-                                result.Entity = entity;
-                            }
-                            db.t_technology.Add(technology);
-                            db.SaveChanges();
-
+                            result.Entity = entity;
                         }
-                        else
-                        {
-                            result.Success = false;
-                            result.Message = "Nama technology sama, coba nama yg beda ya, manatau cocok :)";
-                        }
+                        db.t_technology.Add(technology);
+                        db.SaveChanges();
+
+                        
+                      
                     }
+                    //else
+                    //{
+                    //    result.Success = false;
+                    //    result.Message = "Nama technology sama, coba nama yg beda ya, manatau cocok :)";
+                    //}
+                    //}
                     else
                     {
-                        bool isEditNameCreated = ByEditName(entity.name, entity.id);
+                        //bool isEditNameCreated = ByEditName(entity.name, entity.id);
 
                         t_technology technology = db.t_technology.Where(o => o.id == entity.id).FirstOrDefault();
 
-                        if (isEditNameCreated)
+                        // (isEditNameCreated)
+                        //{
+                        if (technology != null && technology.is_delete == false)
                         {
-                            if (technology != null)
+                            technology.name = entity.name;
+                            technology.notes = entity.notes;
+
+                            technology.modified_by = 1;
+                            technology.modified_on = DateTime.Now;
+
+                            var tect_train = (from tt in db.t_technology_trainer
+                                              where tt.technology_id == entity.id
+                                              select new TechTrainerViewModel
+                                              {
+                                                  id = tt.id,
+                                                  trainer_id = tt.trainer_id
+                                              }).ToList();
+
+                            foreach (var item in tect_train)
                             {
-                                technology.name = entity.name;
-                                technology.notes = entity.notes;
-
-                                technology.modified_by = 1;
-                                technology.modified_on = DateTime.Now;
-
-                                var tect_train = (from tt in db.t_technology_trainer
-                                                  where tt.technology_id == entity.id
-                                                  select new TechTrainerViewModel
-                                                  {
-                                                      id = tt.id,
-                                                      trainer_id = tt.trainer_id
-                                                  }).ToList();
-
-                                foreach (var item in tect_train)
+                                var newTechTrainer = entity.trainers.Find(o => o.id == item.trainer_id);
+                                if (newTechTrainer == null)
                                 {
-                                    var newTechTrainer = entity.trainers.Find(o => o.id == item.trainer_id);
-                                    if (newTechTrainer == null)
-                                    {
-                                        var remTrainer = db.t_technology_trainer.Where(o => o.id == item.id).FirstOrDefault();
-                                        db.t_technology_trainer.Remove(remTrainer);
-                                    }
+                                    var remTrainer = db.t_technology_trainer.Where(o => o.id == item.id).FirstOrDefault();
+                                    db.t_technology_trainer.Remove(remTrainer);
                                 }
-
-                                foreach (var item in entity.trainers)
-                                {
-                                    var oldTechTrainer = db.t_technology_trainer.Where(o => o.trainer_id == item.id && o.technology_id == entity.id).FirstOrDefault();
-                                    if (oldTechTrainer == null)
-                                    {
-                                        t_technology_trainer tctr = new t_technology_trainer();
-                                        tctr.technology_id = entity.id;
-                                        tctr.trainer_id = item.id;
-
-                                        tctr.created_by = 1;
-                                        tctr.created_on = DateTime.Now;
-
-                                        db.t_technology_trainer.Add(tctr);
-
-                                    }
-                                }
-
-                                db.SaveChanges();
-                                result.Entity = entity;
                             }
 
-                            else
+                            foreach (var item in entity.trainers)
                             {
-                                result.Success = false;
-                                result.Message = "Trainer not found!";
+                                var oldTechTrainer = db.t_technology_trainer.Where(o => o.trainer_id == item.id && o.technology_id == entity.id).FirstOrDefault();
+                                if (oldTechTrainer == null)
+                                {
+                                    t_technology_trainer tctr = new t_technology_trainer();
+                                    tctr.technology_id = entity.id;
+                                    tctr.trainer_id = item.id;
+
+                                    tctr.created_by = 1;
+                                    tctr.created_on = DateTime.Now;
+
+                                    db.t_technology_trainer.Add(tctr);
+
+                                }
                             }
 
+                            db.SaveChanges();
+                            result.Entity = entity;
                         }
+
                         else
                         {
                             result.Success = false;
-                            result.Message = "Nama technology sama, coba nama yg beda ya, manatau cocok :)";
+                            result.Message = "Trainer not found!";
                         }
+
+                        //}
+                        //else
+                        //{
+                        //    result.Success = false;
+                        //    result.Message = "Nama technology sama, coba nama yg beda ya, manatau cocok :)";
+                        //}
                     }
                 }
             }
             catch (Exception ex)
             {
                 result.Success = false;
+                //result.Message = "Data kemungkinan ganda atau tidak lengkap";
                 result.Message = ex.Message;
             }
 
@@ -304,12 +315,12 @@ namespace XBC.Repo
             return result;
         }
 
-        public static List<TrainerViewModel> EditTrainerById()
-        {
-            List<TrainerViewModel> result = new List<TrainerViewModel>();
+        //public static List<TrainerViewModel> EditTrainerById()
+        //{
+        //    List<TrainerViewModel> result = new List<TrainerViewModel>();
 
-            return result;
-        }
+        //    return result;
+        //}
 
         //baru dibuat
         public static List<TrainerViewModel> Detail()
