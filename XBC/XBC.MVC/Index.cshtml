@@ -1,25 +1,22 @@
-﻿@model IEnumerable<XBC.DataModel.t_biodata>
+﻿
 @{
-    ViewBag.Title = "Biodata";
+    ViewBag.Title = "Batch";
 }
 
-
-
-<h3>@ViewBag.Title</h3>
+@*<h3>@ViewBag.Title</h3>*@
 <style>
     .panel-heading {
         color: black !important;
     }
 </style>
 
-<link href="@Url.Content("~/Content/themes/base/jquery-ui.min.css")" rel="stylesheet" />
 <div class=" panel panel-primary">
     <!-- Default panel contents-->
     <div class="panel-heading">
         @*@using (Html.BeginForm("Search", "Biodata", FormMethod.Get))
             {*@
         @*<input type="text" placeholder="Search by name/majors">*@
-        @Html.TextBox("Search", "", new { placeholder = "Search by name/majors", style = "font-color :  red" })
+        @Html.TextBox("Search", "", new { placeholder = "Search by Technology/name" })
         <button type="submit" id="btn-search">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
         </button>
@@ -27,6 +24,9 @@
         <button type="button" id="btn-create-new" class="btn btn-danger" title="Create New" style="float: right;">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
+
+
+
     </div>
     <div class="panel-body">
         <p>...</p>
@@ -62,19 +62,17 @@
 </div><!--/.modal-->
 
 @section Scripts{
-    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
             $('#btn-search').click(function () {
                 var SearchValue = $("#Search").val();
                 $.ajax({
-                    url: '@Url.Action("Search", "Biodata")',
+                    url: '@Url.Action("Search", "Batch")',
                     type: 'get',
                     data: {"searching" : SearchValue},
                     success: function (result) {
                         $("#data-list").html(result);
-
                     }
                 });
             });
@@ -84,7 +82,7 @@
 
         function GetList() {
             $.ajax({
-                url: '@Url.Action("List", "Biodata")',
+                url: '@Url.Action("List", "Batch")',
                 type: 'get',
                 success: function (result) {
                     $("#data-list").html(result);
@@ -94,10 +92,10 @@
 
         $('#btn-create-new').click(function () {
             $.ajax({
-                url: '@Url.Action("Create", "Biodata")',
+                url: '@Url.Action("Create", "Batch")',
                 type: 'get',
                 success: function (result) {
-                    $(".modal-title").html("Add Biodata");
+                    $(".modal-title").html("Add Batch");
                     $(".modal-body").html(result);
                     $(".modal").modal("show");
                 }
@@ -106,3 +104,4 @@
 
     </script>
 }
+

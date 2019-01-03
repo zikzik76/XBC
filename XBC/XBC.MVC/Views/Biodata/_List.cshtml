@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<XBC.ViewModel.BiodataViewModel>
 
-<table class="table">
-    <thead>
+<table class="table table-bordered">
+    <thead class="bg-light-blue">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.name)
@@ -28,7 +28,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.gpa)
                 </td>
-                <td>
+                <td align="center">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
