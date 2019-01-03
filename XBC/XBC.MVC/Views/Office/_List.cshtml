@@ -1,0 +1,76 @@
+﻿@model IEnumerable<XBC.ViewModel.OfficeViewModel>
+
+
+<table class="table table-bordered">
+    <thead class="bg-light-blue">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneEmail)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneEmail)
+                </td>
+
+                <td align="center">
+                    <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle glyphicon glyphicon-align-justify" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="btn-edit-office" data-id="@item.id">Edit</a></li>
+                            <li><a href="#" class="btn-delete-office" data-id="@item.id">Delete</a></li>
+                        </ul>
+                    </div>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+
+    $(".btn-edit-office").click(function () {
+        //alert("1");
+        $.ajax({
+            url: '@Url.Action("Edit","Office")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $("#modal1 .modal-title").html("Edit");
+                $("#modal1 .modal-body").html(result);
+                $("#modal1").modal("show");
+            }
+        });
+
+        $(".btn-delete-office").click(function () {
+            //alert("Value Id : " + $(this).attr("data-id"));
+            $.ajax({
+                url: '@Url.Action("Delete","Office")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $("#modal1 .modal-title").html("Delete");
+                    $("#modal1 .modal-body").html(result);
+                    $("#modal1").modal("show");
+                }
+            });
+        });
+    });
+</script>

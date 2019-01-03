@@ -1,0 +1,110 @@
+﻿@model XBC.ViewModel.RoomViewModel
+
+@using (Html.BeginForm("RoomById", "Office", FormMethod.Post, new { id = "form-create-room", name = "form-create-room" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.code, new { htmlAttributes = new { @class = "form-control", placeholder = "Code", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.capacity, new { htmlAttributes = new { @class = "form-control", placeholder = "Capacity", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.capacity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.any_projector, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <div class="radio">
+                    @Html.RadioButtonFor(model => model.any_projector, true) Yes &nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.any_projector, false, new { @class = "radiofalse" }) No
+                    @Html.ValidationMessageFor(model => model.any_projector, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Description", Style = "max-width:100%" } })
+                @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="btn-group btn-group-sm">
+                    <input type="button" value="Add" class="btn btn-warning" id="btneditroom" />
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+<script type="text/javascript">
+    $("#btneditroom").click(function () {
+        var index = $("#room-list tr").length;
+        var code = $("#modal2").find("#code").val(); 
+        var name = $("#modal2").find("#name").val();
+        var capacity = $("#modal2").find("#capacity").val();
+        var notes = $("#modal2").find("#notes").val();
+        var chosenValue = $('input:radio[id="any_projector"]:checked').val();
+       //Sampai disini data udah di bawa ke modal pertama.  ini baru kaya Serializenya. buat nampilinnya dibawah ya? iya di bawah ini. kan index td selalu dari 0 karena datanya gaada. oke terus perhatiin value ini. jadi dy nembak d HTML5. bingung? kalau sampe code ngerti tp value itu aku nangkepnya dia buat penampungan bawa data dr yg diambil oake manual diatas ga si? bener yang km blg.value it cuma buat nampung apa yang bakal kita isi. karena kita udah dapat datanya dari serialize manual td. jd tgl langsung tembak. oke ngerti
+
+        $("#room-list").append("<tr id=" + index + "><td>" + '<input class="form-control" id="Details_' + index + '__code" name="Details[' + index + '].code" value="' + code + '" readonly="true"/>' + "</td> <td>" + '<input class="form-control" id="Details_' + index + '__name" name="Details[' + index + '].name" value="' + name + '" readonly="true"/>' + "</td> <td>" + '<input class="form-control" id="Details_' + index + '__capacity" name="Details[' + index + '].capacity" value="' + capacity + '" readonly="true"/>' + "</td>" + ' <td class="hidden">' + '<input class="form-control hidden" id="Details_' + index + '__any_projector" name="Details[' + index + '].any_projector" value="' + chosenValue + '" readonly="true"/>' + "</td>" + ' <td class="hidden">' + '<input class="form-control hidden" id="Details_' + index + '__notes" name="Details[' + index + '].notes" value="' + notes + '" readonly="true"/> ' + "</td>" + ' <td class="hidden">' + '<input class="form-control hidden" id="Details_' + index + '__office_id" name="Details[' + index + '].office_id" "/>' + "</td> <td>" + '<li class="dropdown btn btn-primary"><a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a><ul class="dropdown-menu"><li role="presentation"><a role="menuitem" tabindex="-1" id="btnedit" onclick="buttonedit(' + index + ')">Edit</a></li><li role="presentation"><a role="menuitem" tabindex="-1" id="btndelete" onclick="buttondelete(' + index + ')">Delete</a></li></ul></li>' + "</td></tr>");
+        $("#modal2").modal('hide')
+
+        //liat onclick=buttonedit(). tau artinya onclick? biar bisa di klik. tul sekaleh. tplebih tepatnya karena dy berbentuk <li> dan bukan button. jadi carapaling gampang ngelempar onclick. Terus buttonedit itu cuma penamaan aja. sedangkan index itu data yang bakal dibawa sama button edit. jadi gni onclick = "buttonedit(index)". SEdangkan index tadi dimulai dari 0 dan terus bertembah. ngerti? iya.nanti index itu untuk menyamai data sama loopingan list. sampai sini udah masuk ke modal 1 lagi. dah paham blm? oh iya iya. trs mau tanya bang. itu pake <li> karena kita gunain html kan ya? tp kan di html jg bs pake button,terus bedanya apa? 
+
+        //beda bentuk aja sih. klo button gak bakal sama kaya yang pnyamu sekarang. <li> itu ke bawah terus di kasih <a> spaya bsa d kasih CSS onclick. coba aja. yaudh nnt dicoba. soalnya aku msh bingung kapan gunain submit kapan gunain onclick.
+        //gada bedana dek. sama sama untuk mengeksekusi. tapi bedanya yang plg jelas. klo submit itu cuma untuk melempar form ke controller terus masuk ke bagian BACKEND. sedangkan onclick itu sama kaya <button type="button"> yang annti bakal km lempar pake javascript $("#button").on('click', function(){}). gitu. oke lanjut lg bang
+        //klo pake onclick dy tgl gunain function *nama onclicknya* terus (). isi buka kurungnya tergantung dari parameter yang km bawa. karna ini paramternya cm 1. makanya bisa d buat function buttonedit(x). parameter it kita inisialisasi jadi X. ok? oke
+
+
+
+        //liat yang dibawha ini. gunanya untuk mereset Name sama ID yang listnya berubah sewaktu waktu.misalnya karena km hapus, ato karena km edit. cara ngeresetnya ada disni.oke
+        //fungsi (/\d/g) itu buat apa? replace selalu gitu sih. udh aturannya gt? tul sekaleh. oke. sebentarr
+
+        //Viewmodal2 ini partial view apa bukan bang? iya dong.daridsini dah ketauan.kan dy partialview d returnya. iya aku ga liat td wkwk nanya lg nih ya bang
+
+        $.each($("#room-list tr"), function (index, item) {
+            $.each($(this).find('.form-control'), function (key, val) {
+                var id = $(this).attr('id').replace(/\d/g, index);
+                $(this).attr('id', id);
+                var name = $(this).attr('name').replace(/\d/g, index);
+                $(this).attr('name', name);
+            });
+            $.each($("#room-list").find("#" + x), function (key, val) {
+                var id = $(this).attr('id').replace(/\d/g, index);
+                $(this).attr('id', id);
+            });
+            $.each($(this).find('#buttonedit'), function (key, val) {
+                var name = $(this).val().replace(/\d/g, index);
+                $(this).val(name);
+            });
+        });
+    });
+
+
+
+
+
+</script>

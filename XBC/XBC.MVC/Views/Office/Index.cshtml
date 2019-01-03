@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "OFFICE";
+}
+
+@model XBC.ViewModel.OfficeViewModel
+
+@Styles.Render("~/AdminLTE/plugins/datatables/css")
+<div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        @ViewBag.Title
+    </div>
+    <div id="AlertResponse">
+
+    </div>
+
+    <div class="panel-body">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by name" id="btn-search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default glyphicon glyphicon-search btn-src" type="button"></button>
+                        </span>
+
+                        <span class="input-group-btn">
+                            <button id="btn-create-new" class="btn btn-success glyphicon glyphicon-plus" type="button" style="float:right"></button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+            @*<div class="col-md-6">
+                    <div class="input-group">
+
+                    </div>
+                </div>*@
+
+        </div>
+    </div>
+
+    <div id="data-list">
+        Loading...
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="modal1" tabIndex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="box box-warning box-solid">
+            <div class="box-header">
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>One Fine Body&hellip;</p>
+            </div>
+        </div><!--/Modal-Content-->
+    </div><!--/Modal-Dialog-->
+</div><!--/Modal-->
+
+<div class="modal fade" id="modal2" tabIndex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="box box-danger box-solid">
+            <div class="box-header">
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>One Fine Body&hellip;</p>
+            </div>
+        </div><!--/Modal-Content-->
+    </div><!--/Modal-Dialog-->
+</div><!--/Modal-->
+
+
+@section Scripts{
+    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List","Office")',
+                type: 'get',
+                data: { search: $("#btn-search").val() },
+                success: function (result) {
+                    $("#data-list").html(result);
+                }
+            });
+        }
+
+        $('.btn-src').click(function () {
+            $.ajax({
+                url: '@Url.Action("search", "Office")',
+                type: 'get',
+                data: { search: $("#btn-search").val() },
+                success: function (result) {
+                    $("#data-list").html(result);
+
+                }
+            });
+        });
+
+        $('#btn-create-new').click(function () {
+            $.ajax({
+                url: '@Url.Action("Create","Office")',
+                type: 'get',
+                success: function (result) {
+                    $("#modal1 .modal-title").html("Office");
+                    $("#modal1 .modal-body").html(result);
+                    $("#modal1").modal("show");
+                }
+            });
+        });
+
+        //Post Create
+        $("#modal1").on("submit", "#form-create", function () {
+            vData = $("form").serialize();
+            $.ajax({
+                url: "@Url.Action("Create")",
+                type: "post",
+                datatype: "json",
+                data: vData,
+                success: function (x) {
+                    if (x.success == true) {
+                        $("#modal1").modal('hide');
+                        GetList();
+                        var response = '<div class="alert alert-' + x.alertType + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + x.alertStrong + '</strong> ' + x.alertMessage + '.</div>';
+                        $('#AlertResponse').hide().html(response).fadeIn(1500);
+                        $('.alert').delay(5000).fadeOut('normal', function () {
+                            $(this).remove();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        //Post Edit
+        $("#modal1").on("submit", "#form-create1", function () {
+            vData = $("form").serialize();
+            $.ajax({
+                url: "@Url.Action("Edit")",
+                type: "post",
+                datatype: "json",
+                data: vData,
+                success: function (x) {
+                    if (x.success == true) {
+                        $("#modal1").modal('hide');
+                        GetList();
+                        var response = '<div class="alert alert-' + x.alertType + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + x.alertStrong + '</strong> ' + x.alertMessage + '.</div>';
+                        $('#AlertResponse').hide().html(response).fadeIn(1500);
+                        $('.alert').delay(5000).fadeOut('normal', function () {
+                            $(this).remove();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+
+    </script>
+}

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<XBC.ViewModel.RoomViewModel>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.capacity)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.capacity)
+            </td>
+            <td>
+                <div class="pull-right">
+                    <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle glyphicon glyphicon-align-justify" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="btn-edit-room" data-id="@item.id">Edit</a></li>
+                            <li><a href="#" class="btn-delete-room" data-id="@item.id">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script type="text/javascript">
+
+    $(".btn-delete-room").click(function () {
+         alert("Value Id : " + $(this).attr("data-id"));
+        @*$.ajax({
+            url: '@Url.Action("Delete","Room")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Delete");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });*@
+    });
+
+</script>

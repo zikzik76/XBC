@@ -84,6 +84,29 @@ namespace XBC.Repo
             return result != null ? result : new List<RoomViewModel>();
         }
 
+        public static List<RoomViewModel> ByOffice()
+        {
+            List<RoomViewModel> result = new List<RoomViewModel>();
+            using (var db = new XBCContext())
+            {
+                result = (from r in db.t_room
+                          join o in db.t_office
+                          on r.office_id equals o.id
+                          where r.is_delete == false && r.id == o.id
+                          select new RoomViewModel
+                          {
+                              id = r.id,
+                              code = r.code,
+                              name = r.name,
+                              capacity = r.capacity,
+                              any_projector = r.any_projector,
+                              notes = r.notes,
+                              office_id = r.office_id,
+                          }).ToList();
+            }
+            return result != null ? result : new List<RoomViewModel>();
+        }
+
         //Create new
         public static ResponseResult CreateEdit(RoomViewModel entity)
         {
@@ -129,5 +152,39 @@ namespace XBC.Repo
             }
             return result;
         }
+
+        public static ResponseResult Delete(RoomViewModel entity)
+        {
+            //id -> 
+            ResponseResult result = new ResponseResult();
+            try
+            {
+                using (var db = new XBCContext())
+                {
+                    t_room Room = db.t_room.Where(o => o.id == entity.id).FirstOrDefault();
+                    if (Room != null)
+                    {
+
+                        Room.is_delete = true;
+                        db.SaveChanges();
+
+                        result.Entity = entity;
+                    }
+                    else
+                    {
+                        result.Success = false;
+                        result.Message = "Room Not Found";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
     }
 }
