@@ -27,7 +27,7 @@
 	**JANGAN DRAG AND DROP**
 - Setelah Selesai menambahkan klik kanan **Solution** pada project yang sebelumnya di clone dan pilih **Manage Nudget Packages for Solution** lalu klik **Restore** (di pojok kanan).
 - Setelah selesai, Type
-	> [enter image description here](https://lh3.googleusercontent.com/grbwSJahq6ymHY3iZCQqbiSHCsn515AQOR7mmnYQVQQdMlIehQiphtYeXBtwsaE9yrFKoF1PkI2K)
+	> ![enter image description here](https://lh3.googleusercontent.com/grbwSJahq6ymHY3iZCQqbiSHCsn515AQOR7mmnYQVQQdMlIehQiphtYeXBtwsaE9yrFKoF1PkI2K)
 	
 - Type "git commit -m "KALIAN_MENGERJAKAN_FITUR_APA" (dengan petik)
 	contoh:
