@@ -22,6 +22,7 @@ namespace XBC.Repo
             {
                 result = (from tr in db.t_trainer
                           where tr.is_delete == false && tr.name.Contains(search) || search == null
+                          orderby tr.name ascending
                           select new TrainerViewModel
                           {
                               id = tr.id,
@@ -184,11 +185,10 @@ namespace XBC.Repo
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "Data kemungkinan ganda atau tidak lengkap";
+                result.Message = "Data kemugkinan ganda atau data tidak lengkap";
             }
             return result;
         }
-
         //DELETE
         public static ResponseResult Delete(TrainerViewModel entitiy)
         {

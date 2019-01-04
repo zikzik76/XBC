@@ -21,6 +21,7 @@ namespace XBC.Repo
             {
                 result = (from tc in db.t_technology
                           where tc.is_delete == false && tc.name.Contains(search) || search == null
+                          orderby tc.name ascending
                           select new TechnologyViewModel
                           {
                               id = tc.id,
@@ -146,7 +147,7 @@ namespace XBC.Repo
         //create new & update
         public static ResponseResult CreateEdit(TechnologyViewModel entity)
         {
-            
+
 
             ResponseResult result = new ResponseResult();
             //jika nama sudah di create
@@ -185,8 +186,6 @@ namespace XBC.Repo
                         db.t_technology.Add(technology);
                         db.SaveChanges();
 
-                        
-                      
                     }
                     //else
                     //{
@@ -202,7 +201,7 @@ namespace XBC.Repo
 
                         // (isEditNameCreated)
                         //{
-                        if (technology != null && technology.is_delete == false)
+                        if (technology != null)
                         {
                             technology.name = entity.name;
                             technology.notes = entity.notes;
@@ -267,8 +266,7 @@ namespace XBC.Repo
             catch (Exception ex)
             {
                 result.Success = false;
-                //result.Message = "Data kemungkinan ganda atau tidak lengkap";
-                result.Message = ex.Message;
+                result.Message = "Data kemungkinan ganda atau tidak lengkap";
             }
 
             return result;
