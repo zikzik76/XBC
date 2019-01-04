@@ -46,25 +46,38 @@ namespace XBC.Repo
                     {
                         t_monitoring mt = new t_monitoring();
 
-                        //  binding id w/ name on View
-                        mt.id = entity.id;
-                        mt.biodata_id = entity.biodata_id;
+                        var test = GetByIdBeforeCreate(entity.idle_date, entity.biodata_id);
 
-                        mt.idle_date = entity.idle_date;
-                        mt.last_project = entity.last_project;
-                        mt.idle_reason = entity.idle_reason;
+                        if(test.placement_date <= entity.idle_date || test.placement_date == null)
+                        {
+                            //  binding id w/ name on View
+                            mt.id = entity.id;
+                            mt.biodata_id = entity.biodata_id;
 
-                        //  createdby from user login
-                        mt.created_by = 111;
-                        mt.created_on = DateTime.Now;
+                            mt.idle_date = entity.idle_date;
+                            mt.last_project = entity.last_project;
+                            mt.idle_reason = entity.idle_reason;
 
-                        db.t_monitoring.Add(mt);
-                        db.SaveChanges();
+                            //  createdby from user login
+                            mt.created_by = 111;
+                            mt.created_on = DateTime.Now;
 
-                        result.Entity = entity;
+                            db.t_monitoring.Add(mt);
+                            db.SaveChanges();
 
-                        //  AUDIT LOG => "INSERT"
-                        AuditRepo.Insert(mt);
+
+                            result.Entity = entity;
+
+                            //  AUDIT LOG => "INSERT"
+                            //AuditRepo.Insert(mt);
+
+                        }
+                        else
+                        {
+                            result.Success = false;
+                            result.Message = ("idle date lebih besar daripada placement date!");
+                        }
+
                     }
                     else // edit
                     {
@@ -173,6 +186,41 @@ namespace XBC.Repo
             }
             return result;
         }
+
+        public static MonitoringViewModel GetByIdBeforeCreate(DateTime testDate, long bioId)
+        {
+            MonitoringViewModel result = new MonitoringViewModel();
+            using (var db = new XBCContext())
+            {
+                result = (from mt in db.t_monitoring
+                          where mt.biodata_id == bioId && mt.is_delete == false
+                          orderby mt.placement_date descending
+                          select new MonitoringViewModel
+                          {
+                              id = mt.id,
+                              biodata_id = mt.biodata_id,
+
+                              idle_date = mt.idle_date,
+                              last_project = mt.last_project,
+                              idle_reason = mt.idle_reason,
+
+                              placement_date = mt.placement_date,
+                              placement_at = mt.placement_at,
+                              notes = mt.notes,
+
+                              created_by = mt.created_by,
+                              created_on = mt.created_on,
+                              modified_by = mt.modified_by,
+                              modified_on = mt.modified_on,
+                              deleted_by = mt.deleted_by,
+                              deleted_on = mt.deleted_on,
+                              is_delete = mt.is_delete
+
+                          }).FirstOrDefault();
+            };
+            return result == null ? new MonitoringViewModel() : result;
+        }
+
 
         public static MonitoringViewModel GetById(int id)
         {
@@ -284,7 +332,7 @@ namespace XBC.Repo
                     // insert
                     t_monitoring mt = db.t_monitoring.Where(o => o.id == entity.id).FirstOrDefault();
 
-                    if (mt != null)
+                    if (mt == null || entity.placement_date != null)
                     {
                         mt.placement_date = entity.placement_date;
                         mt.placement_at = entity.placement_at;

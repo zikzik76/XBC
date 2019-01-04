@@ -16,13 +16,13 @@ namespace XBC.ViewModel
 
         public long id { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Biodata Name")]
+        [Required]
         public long biodata_id { get; set; }
-        [Display(Name = "Name")]
+        [Display(Name = "Biodata Name")]
         public string biodataName { get; set; }
 
         [Display(Name = "Idle Date")]
-        //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime idle_date { get; set; }
 
@@ -36,9 +36,9 @@ namespace XBC.ViewModel
 
         [Display(Name = "Placement Date")]
         [Required]
-        //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? placement_date { get; set; }
+        //[DataType(DataType.Date)]
 
         [Display(Name = "Placement at")]
         [StringLength(50)]

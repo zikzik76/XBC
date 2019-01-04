@@ -37,7 +37,8 @@
 }
 
 @*@Scripts.Render("~/bundles/jqueryval")*@
-
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script type="text/javascript">
 
     $("#form-bt-edit").submit(function () {
@@ -52,9 +53,9 @@
                     $(".modal").modal("hide");
                     GetListBT();
                 }
-                else {
-                    alert("Error!" + result.message);
-                }
+                //else {
+                //    alert("Error!" + result.message);
+                //}
             }
         });
         return false;

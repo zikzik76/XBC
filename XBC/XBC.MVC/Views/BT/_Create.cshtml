@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.notes, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(m => m.notes, new { rows = 3, @class = "form-control col-md-2"  })
+                @Html.TextAreaFor(m => m.notes, new { rows = 3, @class = "form-control col-md-2" })
                 @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -35,7 +35,8 @@
 }
 
 @*@Scripts.Render("~/bundles/jqueryval")*@
-
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script type="text/javascript">
 
     $("#form-create-bt").submit(function () {
@@ -50,9 +51,9 @@
                     $(".modal").modal("hide");
                     GetListBT();
                 }
-                else {
-                    alert("Error!" + result.message);
-                }
+                //else {
+                //    alert("Error!" + result.message);
+                //}
             }
         });
         return false;
