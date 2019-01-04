@@ -35,7 +35,8 @@
 }
 
 @*@Scripts.Render("~/bundles/jqueryval")*@
-
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script type="text/javascript">
 
     $("#form-create-btt").submit(function () {
@@ -50,9 +51,9 @@
                     $(".modal").modal("hide");
                     GetListBTT();
                 }
-                else {
-                    alert("Error!" + result.message);
-                }
+                //else {
+                //    alert("Error!" + result.message);
+                //}
             }
         });
         return false;
