@@ -97,6 +97,7 @@ namespace XBC.Repo
                           where b.id == id
                           select new BiodataViewModel
                           {
+                              id = b.id,
                               name = b.name, //id view Model
                               gender = b.gender,
                               lastEducation = b.last_education,
@@ -118,6 +119,11 @@ namespace XBC.Repo
 
 
                           }).FirstOrDefault();
+            }
+            //  dataBeforeUpdate temporary for before update audit_log
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
             }
 
             return result != null ? result : new BiodataViewModel();

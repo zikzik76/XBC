@@ -56,6 +56,8 @@ namespace XBC.Repo
                               technologyId = b.technology_id,
                               technologyName = tk.name,
                               name = b.name,
+                              periodFrom = b.period_from,
+                              periodTo = b.period_to,
                               trainerId = b.trainer_id,
                               trainerName = t.name,
                               isDelete = b.is_delete
@@ -126,6 +128,11 @@ namespace XBC.Repo
                           }).FirstOrDefault();
 
             }
+            //  dataBeforeUpdate temporary for before update audit_log
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
             return result != null ? result : new BatchViewModel();
         }
 
@@ -146,6 +153,11 @@ namespace XBC.Repo
                               id = t.id,
                               name = t.name
                           }).ToList();
+            }
+            //  dataBeforeUpdate temporary for before update audit_log
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
             }
             return result != null ? result : new List<TestViewModel>();
         }
@@ -185,24 +197,34 @@ namespace XBC.Repo
                     {
                         t_batch batch = new t_batch();
 
-                        batch.technology_id = entity.technologyId;
-                        batch.trainer_id = entity.trainerId;
-                        batch.name = entity.name;
-                        batch.period_from = entity.periodFrom;
-                        batch.period_to = entity.periodTo;
-                        batch.room_id = entity.roomId;
-                        batch.bootcamp_type_id = entity.bootcampTypeId;
-                        batch.notes = entity.notes;
+                        Object dataPeriod = GetData(entity.periodFrom, entity.periodTo, entity.trainerId);
 
-                        batch.created_by = 1;
-                        batch.created_on = DateTime.Now;
+                        if (dataPeriod == null)
+                        {
+                            batch.technology_id = entity.technologyId;
+                            batch.trainer_id = entity.trainerId;
+                            batch.name = entity.name;
+                            batch.period_from = entity.periodFrom;
+                            batch.period_to = entity.periodTo;
+                            batch.room_id = entity.roomId;
+                            batch.bootcamp_type_id = entity.bootcampTypeId;
+                            batch.notes = entity.notes;
 
-                        db.t_batch.Add(batch);
-                        db.SaveChanges();
+                            batch.created_by = 1;
+                            batch.created_on = DateTime.Now;
 
-                        result.Entity = entity;
+                            db.t_batch.Add(batch);
+                            db.SaveChanges();
 
-                        AuditRepo.Insert(batch);
+                            result.Entity = entity;
+
+                            AuditRepo.Insert(batch);
+                        }
+                        else
+                        {
+                            result.Success = false;
+                            result.Message = "Period Same";
+                        }
                     }
                     else
                     //update
@@ -264,6 +286,22 @@ namespace XBC.Repo
                 result.Message = ex.Message;
             }
             return result;
+        }
+
+        public static Object GetData(DateTime? periodFrom, DateTime? periodTo, long trainerId)
+        {
+            var db = new XBCContext();
+            var result = (from b in db.t_batch
+                          where b.trainer_id == trainerId && b.period_from == periodFrom || b.trainer_id == trainerId && b.period_to == periodTo
+                          select new BatchViewModel
+                          {
+
+                              trainerId = b.trainer_id,
+                              periodFrom = b.period_from,
+                              periodTo = b.period_to
+
+                          }).FirstOrDefault();
+            return result != null ? result : null;
         }
 
         //Save Batch test
