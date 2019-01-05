@@ -46,6 +46,11 @@ namespace XBC.Repo
                           }).FirstOrDefault();
 
             }
+            //  dataBeforeUpdate temporary for before update audit_log
+            if (result != null)
+            {
+                dataBeforeUpdate = result;
+            }
             return result != null ? result : new BatchTestViewModel();
         }
 

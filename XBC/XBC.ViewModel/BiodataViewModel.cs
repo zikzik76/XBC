@@ -44,23 +44,18 @@ namespace XBC.ViewModel
 
         public long? bootcampTestType { get; set; }
 
-        [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid Numeric")]
         public int? iq { get; set; }
 
-        [Required]
-        [RegularExpression("^[0-9]{1,12}$", ErrorMessage = "DU Must Be Numeric")]
+        //[RegularExpression("^[0-9]{1,12}$", ErrorMessage = "DU Must Be Numeric")]
         public string du { get; set; }
 
-        [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid Numeric")]
         public int? arithmetic { get; set; }
 
-        [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid Numeric")]
         public int? nestedLogic { get; set; }
 
-        [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid Numeric")]
         public int? joinTable { get; set; }
 

@@ -87,7 +87,7 @@ namespace XBC.MVC.Controllers
             //ViewBag.BatchTestId = bt;
             //id => Batch Id
             ViewBag.BatchId = id;
-            ViewBag.BatchTestId = new SelectList(BatchTestRepo.ByBatchTest(),"id");
+            ViewBag.BatchTestId = new SelectList(BatchTestRepo.ByBatchTest(/*btId*/));
             return PartialView("_Test", TestRepo.GetBySearch(id));
         }
 
