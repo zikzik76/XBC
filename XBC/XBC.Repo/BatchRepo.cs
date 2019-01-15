@@ -96,7 +96,8 @@ namespace XBC.Repo
         }
 
         //Get By Id
-        public static BatchViewModel ById(int id, long userid)
+        //public static BatchViewModel ById(int id, long userid)
+        public static BatchViewModel ById(int id)
         {
             BatchViewModel result = new BatchViewModel();
             using (var db = new XBCContext())
@@ -122,7 +123,7 @@ namespace XBC.Repo
                               roomId = b.room_id,
                               bootcampTypeId = b.bootcamp_type_id,
                               notes = b.notes,
-                              modifiedBy = userid,
+                              modifiedBy = 1,
                               modifiedOn = DateTime.Now
 
                           }).FirstOrDefault();

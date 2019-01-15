@@ -58,8 +58,10 @@ namespace XBC.MVC.Controllers
 
         public ActionResult Edit(int id)
         {
-            var userid = (long)Session["userid"];
-            BatchViewModel model = BatchRepo.ById(id,userid);
+            //var userid = (long)Session["userid"];
+            //BatchViewModel model = BatchRepo.ById(id,userid);
+
+            BatchViewModel model = BatchRepo.ById(id);
             ViewBag.TechnologyList = new SelectList(TechnologyRepo.ByTechnology(), "id", "name");
             ViewBag.TrainerList = new SelectList(TrainerRepo.ByTrainer(), "id", "name");
             ViewBag.RoomList = new SelectList(RoomRepo.All(), "id", "name");

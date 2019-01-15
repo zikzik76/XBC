@@ -40,12 +40,10 @@ namespace XBC.ViewModel
         public string name { get; set; }
         
         [Display(Name = "Period From")]
-        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? periodFrom { get; set; }
 
         [Display(Name = "Period To")]
-        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? periodTo { get; set; }
 

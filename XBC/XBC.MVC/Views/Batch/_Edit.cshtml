@@ -75,7 +75,7 @@
             @*@Html.LabelFor(model => model.periodFrom, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.periodFrom, new { htmlAttributes = new { @type = "date", @class = "form-control", @Value = Model.periodFrom, onkeydown = "return false", onpaste = "return false", placeholder = "Period From" } })*@
-                @Html.EditorFor(model => model.periodFrom, new { htmlAttributes = new { @class = "form-control datepicker", onkeydown = "return false", onpaste = "return false", placeholder = "Period From" } })
+                @Html.EditorFor(model => model.periodFrom, new { htmlAttributes = new { @class = "form-control period-from" , placeholder = "Period From" } })
                 @Html.ValidationMessageFor(model => model.periodFrom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="form-group">
             @*@Html.LabelFor(model => model.periodTo, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                @Html.EditorFor(model => model.periodTo, new { htmlAttributes = new { @class = "form-control datepicker", onkeydown = "return false", onpaste = "return false", placeholder = "Period To" } })
+                @Html.EditorFor(model => model.periodTo, new { htmlAttributes = new { @class = "form-control period-to", placeholder = "Period To" } })
                 @*@Html.EditorFor(model => model.periodTo, new { htmlAttributes = new { @class = "form-control date-picker", onkeydown = "return false", onpaste = "return false", placeholder = "Period To" } })*@
                 @Html.ValidationMessageFor(model => model.periodTo, "", new { @class = "text-danger" })
             </div>
@@ -131,7 +131,8 @@
 @*@Scripts.Render("~/bundles/jqueryval")*@
 
 <script type="text/javascript">
-    $(".datepicker").datepicker({ format: "dd-M-yyyy" });
+    $(".period-from").datepicker({ dateFormat: 'dd-M-yy' });
+    $(".period-to").datepicker({ dateFormat: 'dd-M-yy' });
 
     $("#form-edit").submit(function () {
         $.ajax({
